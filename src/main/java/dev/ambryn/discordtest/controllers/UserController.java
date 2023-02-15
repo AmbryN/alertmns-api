@@ -1,8 +1,11 @@
 package dev.ambryn.discordtest.controllers;
 
+import dev.ambryn.discordtest.beans.Meeting;
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.*;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -19,7 +22,7 @@ public class UserController {
 
     @GET
     @Produces(value = "application/json")
-    public List<User> getUsers() {
+    public List<User> getUsers() throws HeuristicRollbackException, SystemException, HeuristicMixedException, NotSupportedException, RollbackException {
         return (List<User>) userRepository.getUsers();
     }
 

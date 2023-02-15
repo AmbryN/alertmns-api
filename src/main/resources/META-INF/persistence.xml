@@ -6,7 +6,9 @@
     <persistence-unit name="default" transaction-type="JTA">
         <jta-data-source>jdbc/local-discord</jta-data-source>
         <properties>
-            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="eclipselink.logging.level.sql" value="FINEST" />
+            <property name="eclipselink.logging.parameters"  value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

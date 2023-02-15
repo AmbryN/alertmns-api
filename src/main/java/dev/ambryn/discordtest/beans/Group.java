@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "User_Group")
-public class UserGroup {
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gro_id", nullable = false)
@@ -15,7 +15,7 @@ public class UserGroup {
     @Column(name = "gro_name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinTable(name = "is_member_of",
             joinColumns = @JoinColumn(name = "gro_id", referencedColumnName = "gro_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")

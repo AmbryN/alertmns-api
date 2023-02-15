@@ -3,6 +3,7 @@ package dev.ambryn.discordtest.beans;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Channel")
@@ -14,6 +15,10 @@ public class Channel {
 
     @Column(name = "cha_name", nullable = false)
     private String name;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "cha_visibility", nullable = false)
+    private Visibility visibility;
 
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinTable(name = "is_allowed_in",
@@ -29,12 +34,11 @@ public class Channel {
     )
     private ArrayList<User> subscribers;
 
-    @OneToMany(targetEntity = Message.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "contains",
-            joinColumns = @JoinColumn(name = "cha_id", referencedColumnName = "cha_id"),
-            inverseJoinColumns = @JoinColumn(name = "msg_id", referencedColumnName = "msg_id")
-    )
-    private ArrayList<Message> messages;
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
+    private List<Message> messages;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
+    private List<Meeting> meetings;
 
     public Channel() {}
 
@@ -58,6 +62,14 @@ public class Channel {
         this.subscribers.remove(sub);
     }
 
+    public void addMeeting(Meeting meeting) {
+        this.meetings.add(meeting);
+    }
+
+    public void removeMeeting(Meeting meeting) {
+        this.meetings.remove(meeting);
+    }
+
     public Long getId() {
         return id;
     }
@@ -66,15 +78,23 @@ public class Channel {
         return name;
     }
 
-    public ArrayList<User> getSubscribers() {
+    public List<User> getSubscribers() {
         return subscribers;
     }
 
-    public ArrayList<User> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
-    public ArrayList<Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
+    }
+
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void notifySubscribers()  {
+        // TODO
     }
 }

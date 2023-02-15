@@ -36,15 +36,12 @@ public class User {
     )
     private List<Role> roles;
 
-    @ManyToMany(targetEntity = Event.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Notification.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "is_notified_of",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
-            inverseJoinColumns = @JoinColumn(name = "eve_id", referencedColumnName = "eve_id")
+            inverseJoinColumns = @JoinColumn(name = "not_id", referencedColumnName = "not_id")
     )
-    private Deque<Event> queue;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Permission> permissions;
+    private Deque<Notification> queue;
 
     public User() {
     }
@@ -56,7 +53,6 @@ public class User {
         this.firstname = firstname;
         this.roles = new ArrayList<>();
         this.queue = new ArrayDeque<>();
-        this.permissions = new HashSet<>();
     }
 
     public void addRole(Role role) {
@@ -67,20 +63,12 @@ public class User {
         this.roles.remove(role);
     }
 
-    public void enqueuEvent(Event event) {
-        this.queue.add(event);
+    public void enqueuEvent(Notification notification) {
+        this.queue.add(notification);
     }
 
     public void dequeueEvent() {
         this.queue.poll();
-    }
-
-    public void addPermission(Permission permission) {
-        this.permissions.add(permission);
-    }
-
-    public void removePermission(Permission permission) {
-        this.permissions.remove(permission);
     }
 
     public Long getId() {
@@ -105,9 +93,5 @@ public class User {
 
     public List<Role> getRoles() {
         return roles;
-    }
-
-    public Set<Permission> getPermissions() {
-        return this.permissions;
     }
 }

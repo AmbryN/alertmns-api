@@ -1,5 +1,6 @@
 package dev.ambryn.discordtest.beans;
 
+import dev.ambryn.discordtest.enums.ERole;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,11 +12,11 @@ public class Role {
     private Long id;
 
     @Column(name = "rol_name", nullable = false, unique = true)
-    private String name;
+    private ERole name;
 
     public Role() { }
 
-    public Role(String name) {
+    public Role(ERole name) {
         this.name = name;
     }
 
@@ -23,7 +24,7 @@ public class Role {
         return id;
     }
 
-    public String getName() {
+    public ERole getName() {
         return name;
     }
 }
