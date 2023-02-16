@@ -20,24 +20,24 @@ public class Channel {
     @JoinColumn(name = "cha_visibility", nullable = false)
     private Visibility visibility;
 
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "is_allowed_in",
             joinColumns = @JoinColumn(name = "cha_id", referencedColumnName = "cha_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
     private ArrayList<User> members;
 
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "has_subscribed_to",
             joinColumns = @JoinColumn(name = "cha_id", referencedColumnName = "cha_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
     private ArrayList<User> subscribers;
 
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, mappedBy = "channel")
     private List<Message> messages;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "channel")
     private List<Meeting> meetings;
 
     public Channel() {}

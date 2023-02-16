@@ -13,7 +13,7 @@ public class Notification {
     @Column(name = "not_seen", nullable = false)
     private boolean seen;
 
-    @OneToOne(targetEntity = Subject.class, cascade = CascadeType.DETACH)
+    @OneToOne(targetEntity = Subject.class)
     @JoinColumn(name = "not_subject", nullable = false)
     private Subject subject;
 

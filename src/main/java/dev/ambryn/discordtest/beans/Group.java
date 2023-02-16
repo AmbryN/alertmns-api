@@ -2,6 +2,7 @@ package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,15 @@ public class Group {
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
     private List<User> members;
+
+    protected Group() {
+        this(null);
+    }
+
+    public Group(String name) {
+        this.name = name;
+        this.members = new ArrayList<>();
+    }
 
     public void addMember(User user) {
         this.members.add(user);

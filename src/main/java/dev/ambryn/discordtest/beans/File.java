@@ -16,8 +16,22 @@ public class File {
     @Column(name = "fil_path")
     private String path;
 
+    protected File() {}
+
+    public File(String name, String path) {
+        this.name = name;
+        this.path = path;
+    }
+
     public Long getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return path;
+    }
 }

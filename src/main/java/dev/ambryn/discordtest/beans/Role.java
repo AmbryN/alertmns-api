@@ -14,7 +14,7 @@ public class Role {
     @Column(name = "rol_name", nullable = false, unique = true)
     private ERole name;
 
-    public Role() { }
+    protected Role() { }
 
     public Role(ERole name) {
         this.name = name;

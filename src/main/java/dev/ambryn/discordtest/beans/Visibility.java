@@ -14,6 +14,12 @@ public class Visibility {
     @Column(name = "vis_name")
     private EVisibility name;
 
+    protected Visibility() {}
+
+    public Visibility(EVisibility name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

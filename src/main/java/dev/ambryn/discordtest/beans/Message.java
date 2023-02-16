@@ -13,7 +13,7 @@ public class Message extends Subject {
     @Column(name = "msg_content", nullable = false)
     private String content;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "msg_file", nullable = true)
     private File file;
 
@@ -40,7 +40,7 @@ public class Message extends Subject {
         return content;
     }
 
-    public File getFilePath() {
+    public File getFile() {
         return file;
     }
 }
