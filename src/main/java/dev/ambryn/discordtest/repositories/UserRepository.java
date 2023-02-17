@@ -4,10 +4,9 @@ import dev.ambryn.discordtest.beans.User;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.*;
-
-import java.util.List;
 
 @Dependent
 public class UserRepository {
@@ -15,6 +14,7 @@ public class UserRepository {
     private EntityManager em;
     @Resource
     private UserTransaction utx;
+
 
     public Iterable<User> getUsers() {
 //        Connection conn = null;
@@ -45,8 +45,33 @@ public class UserRepository {
     }
 
     public User getUser(Long id) {
-        return (User) em.createQuery("SELECT u FROM User u WHERE u.id = :id")
-                .setParameter("id", id)
+        User user = null;
+        try {
+            user = (User) em.createQuery("SELECT u FROM User u WHERE u.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            throw new NoResultException("Did not find User with id=" + id);
+        }
+
+        return user;
+    }
+
+    public User addUser(User user) {
+        try {
+            utx.begin();
+            em.persist(user);
+            utx.commit();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+//            try {
+//                utx.rollback();
+//            } catch (Exception ex2) {
+//                System.out.println(ex2.getMessage());
+//            }
+        }
+        return (User) em.createQuery("SELECT u FROM User u WHERE u.email = :email")
+                .setParameter("email", user.getEmail())
                 .getSingleResult();
     }
 }

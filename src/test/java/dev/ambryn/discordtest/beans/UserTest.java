@@ -1,11 +1,16 @@
 package dev.ambryn.discordtest.beans;
 
+import dev.ambryn.discordtest.mappers.exceptions.ValidationExceptionMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserTest {
+
+    ValidationExceptionMapper em;
 
     User user;
 
@@ -15,21 +20,38 @@ class UserTest {
     }
 
     @Test
-    void setEmailShouldTrimAndLowerCaseInput() {
-        user.setEmail("  teSt.test@test.com   ");
+    void setEmailShouldTrimAndLowercaseInput() {
+        user.setEmail("  TEST.test@test.com   ");
         assertEquals("test.test@test.com", user.getEmail());
     }
 
     @Test
-    void setEmailShouldThrowAnExceptionIfInvalidFormat() {
-        user.setEmail("ééàà@test@again");
+    @Disabled
+    void setEmailShouldThrowExceptionIfNull() {
+        // TODO : Test ValidationExceptionMapper !
     }
 
     @Test
-    void setLastname() {
+    void setLastnameShouldTrimAndUppercaseInput() {
+        user.setLastname("    de la fontaine ");
+        assertEquals("DE LA FONTAINE", user.getLastname());
     }
 
     @Test
-    void setFirstname() {
+    void setLastnameShouldEscapeHTMLChars() {
+        user.setLastname("<>&\"");
+        assertEquals("&lt;&gt;&amp;&quot;", user.getLastname());
+    }
+
+    @Test
+    void setFirstnameShouldTrimInput() {
+        user.setFirstname("    Jean-Christophe   ");
+        assertEquals("Jean-Christophe", user.getFirstname());
+    }
+
+    @Test
+    void setFirstnameShouldEscapeHTMLChars() {
+        user.setFirstname("<>&\"");
+        assertEquals("&lt;&gt;&amp;&quot;", user.getFirstname());
     }
 }

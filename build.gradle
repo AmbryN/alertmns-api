@@ -24,7 +24,13 @@ tasks.withType(JavaCompile) {
 dependencies {
 
     compileOnly('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
+    testImplementation('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
+    // https://mvnrepository.com/artifact/org.glassfish.soteria/jakarta.security.enterprise
+    implementation group: 'org.glassfish.soteria', name: 'jakarta.security.enterprise', version: '3.0.2'
+
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.9")
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

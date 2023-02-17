@@ -14,8 +14,15 @@ class GroupTest {
     }
 
     @Test
-    void getName() {
-        assertEquals("Groupe", group.getName());
+    void getNameShouldTrimInput() {
+        group.setName("   Groupe&groupe_    ");
+        assertEquals("Groupe&groupe_", group.getName());
+    }
+
+    @Test
+    void getNameShouldEscapeDangerousCharacters() {
+        group.setName("<>&\"");
+        assertEquals("&lt;&gt;&amp;&quot;", group.getName());
     }
 
     @Test

@@ -1,4 +1,4 @@
-package dev.ambryn.discordtest;
+package dev.ambryn.discordtest.mappers.exceptions;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -35,7 +35,8 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
             }
             this.property = propertyPath;
             this.message = constraintViolation.getMessage();
-            this.value = constraintViolation.getInvalidValue().toString();
+            if (constraintViolation.getInvalidValue() != null) this.value = constraintViolation.getInvalidValue().toString();
+            else this.value = null;
         }
 
         public String getProperty() {
