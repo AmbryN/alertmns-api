@@ -21,9 +21,9 @@ public class Meeting extends Subject {
     @JoinColumn(name = "mee_user", nullable = false)
     private User organizer;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "mee_channel", nullable = false)
-    private Channel channel;
+//    @ManyToOne(cascade = CascadeType.DETACH)
+//    @JoinColumn(name = "mee_channel", nullable = false)
+//    private Channel channel;
 
     public Meeting() {
         this(null);

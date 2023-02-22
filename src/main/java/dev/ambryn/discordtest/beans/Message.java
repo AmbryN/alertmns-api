@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "Message")
 public class Message extends Subject {
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne
     @JoinColumn(name = "msg_sender", nullable = false)
     private User sender;
 

@@ -37,7 +37,7 @@ public class Channel {
     @OneToMany(orphanRemoval = true, mappedBy = "channel")
     private List<Message> messages;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "channel")
+    @OneToMany(orphanRemoval = true, mappedBy = "channel")
     private List<Meeting> meetings;
 
     public Channel() {}
