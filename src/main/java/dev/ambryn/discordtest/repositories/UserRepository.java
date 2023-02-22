@@ -1,11 +1,13 @@
 package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.User;
+import dev.ambryn.discordtest.errors.DataException;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.transaction.*;
 
 @Dependent
@@ -17,31 +19,10 @@ public class UserRepository {
 
 
     public Iterable<User> getUsers() {
-//        Connection conn = null;
-//        List<User> users = new ArrayList<>();
-//        try {
-//            conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/discord", "root", "root");
-//            PreparedStatement query = conn.prepareStatement("SELECT * FROM User");
-//            ResultSet result = query.executeQuery();
-//            while (result.next()) {
-//                User user = new User(
-//                        result.getString("usr_email"),
-//                        result.getString("usr_firstname"),
-//                        result.getString("usr_lastname"),
-//                        result.getString("usr_password")
-//                );
-//                users.add(user);
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//        return users;
-//
-
-//        CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
-//        cq.select(cq.from(User.class));
-//        return em.createQuery(cq).getResultList();
-        return (Iterable<User>) em.createQuery("SELECT u FROM User u").getResultList();
+        CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
+        cq.select(cq.from(User.class));
+        return em.createQuery(cq).getResultList();
+//        return (Iterable<User>) em.createQuery("SELECT u FROM User u").getResultList();
     }
 
     public User getUser(Long id) {
@@ -50,11 +31,13 @@ public class UserRepository {
             user = (User) em.createQuery("SELECT u FROM User u WHERE u.id = :id")
                     .setParameter("id", id)
                     .getSingleResult();
+throw new NoResultException("Test");
+//            return user;
+
         } catch (NoResultException ex) {
             throw new NoResultException("Did not find User with id=" + id);
         }
 
-        return user;
     }
 
     public User addUser(User user) {
@@ -63,12 +46,12 @@ public class UserRepository {
             em.persist(user);
             utx.commit();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-//            try {
-//                utx.rollback();
-//            } catch (Exception ex2) {
-//                System.out.println(ex2.getMessage());
-//            }
+            try {
+                utx.rollback();
+                throw new DataException("[UserRepository - addUser] could not add User - transaction rolled back");
+            } catch (IllegalStateException | SecurityException | SystemException e2) {
+                throw new DataException("[UserRepository - addUser] could not rollback transaction");
+            }
         }
         return (User) em.createQuery("SELECT u FROM User u WHERE u.email = :email")
                 .setParameter("email", user.getEmail())

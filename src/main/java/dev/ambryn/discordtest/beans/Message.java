@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "Message")
 public class Message extends Subject {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "msg_sender", nullable = false)
     private User sender;
 
