@@ -13,17 +13,17 @@ public class UserSocket {
     public UserSocket() {}
     @OnOpen
     public void open(Session session) {
-        sendAll(session, "Test");
+        sendAll(session, "{ \"content\": \"Open\" }");
     }
     @OnMessage
     public void message(Session session, String msg) {
-        sendAll(session, "test");
+        sendAll(session, msg);
     }
 
     public void sendAll(Session session, String message) {
         for (Session sess : session.getOpenSessions()) {
             try {
-                sess.getBasicRemote().sendText("{ \"content\": \""+ message + "\" }");
+                sess.getBasicRemote().sendText(message);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

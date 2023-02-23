@@ -8,17 +8,13 @@ import dev.ambryn.discordtest.mappers.dto.UserMapper;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.validators.BeanValidator;
 import jakarta.inject.Inject;
-import jakarta.persistence.NoResultException;
-import jakarta.validation.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -45,14 +41,13 @@ public class UserController {
     @Path("/{id: [0-9]+}")
     @Produces(APPLICATION_JSON)
     public Response getUser(@PathParam("id") Long id) {
-        try {
-            User user = userRepository.getUser(id);
-
+        Optional<User> userOption = userRepository.getUser(id);
+        if (userOption.isPresent()) {
+            User user = userOption.get();
             UserGetDTO userGetDTO = userMapper.toDto(user);
             return Response.ok(userGetDTO).build();
-        } catch (NoResultException ex) {
-            return Response.status(404).entity(new ErrorMessage(1000, ex.getMessage())).build();
         }
+        return Response.status(404).entity(new ErrorMessage(1000, "Could not find user with id=" + id)).build();
     }
 
     @POST
@@ -61,16 +56,25 @@ public class UserController {
     public Response postUser(UserPostDTO userDTO) {
         BeanValidator.validate(userDTO);
 
-        User user = userMapper.toUser(userDTO);
-
+        if (userRepository.getUserByEmail(userDTO.email()).isPresent()) {
+            return Response.status(409).entity(new ErrorMessage(4009, "User with email " + userDTO.email() + " already exists")).build();
+        }
         try {
+            User user = userMapper.toUser(userDTO);
             userRepository.addUser(user);
 
-            UserGetDTO userGetDTO = userMapper.toDto(user);
-            return Response.ok(userGetDTO).build();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return Response.status(400).build();
+            Optional<User> newUserOption = userRepository
+                    .getUserByEmail(user.getEmail());
+
+            if (newUserOption.isPresent()) {
+                User newUser = newUserOption.get();
+                UserGetDTO userGetDTO = userMapper.toDto(newUser);
+
+                return Response.ok(userGetDTO).build();
+            }
+            throw new IllegalStateException("User could not be retrieved");
+        } catch (RuntimeException ex) {
+            return Response.status(500).entity(new ErrorMessage(5000, "Server Error: Could not create user")).build();
         }
     }
 }

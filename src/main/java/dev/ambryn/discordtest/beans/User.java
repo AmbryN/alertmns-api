@@ -7,7 +7,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import java.util.*;
 
 @Entity
-@Table(name = "User")
+@Table(name = "User", uniqueConstraints = @UniqueConstraint(name = "email", columnNames = { "usr_email" }))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
