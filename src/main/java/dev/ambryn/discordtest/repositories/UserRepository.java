@@ -15,9 +15,6 @@ import java.util.Optional;
 public class UserRepository {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
-//    @Resource
-//    private UserTransaction utx;
-
 
     public Iterable<User> getUsers() {
         CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
@@ -31,7 +28,6 @@ public class UserRepository {
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(user);
-
         } catch (NoResultException ex) {
             return Optional.empty();
         }

@@ -24,6 +24,11 @@ public abstract class Subject {
         this.sentAt = LocalDateTime.now();
     }
 
+    public Subject(Channel channel) {
+        this.sentAt = LocalDateTime.now();
+        this.channel = channel;
+    }
+
     public Long getId() {
         return id;
     }

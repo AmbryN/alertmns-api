@@ -34,7 +34,7 @@ public class Channel {
     )
     private ArrayList<User> subscribers;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private List<Message> messages;
 
     @OneToMany(orphanRemoval = true, mappedBy = "channel")
@@ -68,6 +68,10 @@ public class Channel {
 
     public void removeMeeting(Meeting meeting) {
         this.meetings.remove(meeting);
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
     }
 
     public Long getId() {

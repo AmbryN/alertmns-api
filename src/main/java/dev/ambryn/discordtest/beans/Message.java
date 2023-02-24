@@ -21,12 +21,12 @@ public class Message extends Subject {
         super();
     }
 
-    public Message(User sender, String content) {
-        this(sender, content, null);
+    public Message(Channel channel, User sender, String content) {
+        this(channel, sender, content, null);
     }
 
-    public Message(User sender, String content, File file) {
-        super();
+    public Message(Channel channel, User sender, String content, File file) {
+        super(channel);
         this.sender = sender;
         this.content = content;
         this.file = file;
@@ -42,5 +42,17 @@ public class Message extends Subject {
 
     public File getFile() {
         return file;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }
