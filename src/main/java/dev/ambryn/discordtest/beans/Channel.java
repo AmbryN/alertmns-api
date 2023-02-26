@@ -34,10 +34,10 @@ public class Channel {
     )
     private ArrayList<User> subscribers;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private List<Message> messages;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private List<Meeting> meetings;
 
     public Channel() {}

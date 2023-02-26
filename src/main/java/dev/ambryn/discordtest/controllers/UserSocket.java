@@ -9,7 +9,6 @@ import dev.ambryn.discordtest.repositories.MessageRepository;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.validators.BeanValidator;
 import jakarta.inject.Inject;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.websocket.EncodeException;
 import jakarta.websocket.OnMessage;
@@ -19,7 +18,6 @@ import jakarta.websocket.server.ServerEndpoint;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Set;
 
 @ServerEndpoint(value = "/socket",
 encoders = {MessageEncoder.class},
@@ -46,7 +44,7 @@ public class UserSocket {
             throw  e;
         }
 
-        Optional<User> userOption = userRepository.getUser(messageDTO.id());
+        Optional<User> userOption = userRepository.getUser(messageDTO.userId());
         Optional<Channel> channelOptional = channelRepository.getChannel(1L);
 
         if (userOption.isPresent() && channelOptional.isPresent()) {
