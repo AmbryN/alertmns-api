@@ -10,6 +10,6 @@ public class MessageMapper {
     public static MessageGetDTO toDTO(Message message) {
         User sender = message.getSender();
         UserGetDTO senderDTO = UserMapper.toDto(sender);
-        return new MessageGetDTO(message.getId(), senderDTO, message.getContent());
+        return new MessageGetDTO(message.getId(), senderDTO, message.getContent(), null, null);
     }
 }

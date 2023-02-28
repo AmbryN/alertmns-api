@@ -1,6 +1,7 @@
 package dev.ambryn.discordtest.dto;
 
 import jakarta.validation.constraints.*;
+import org.apache.commons.text.StringEscapeUtils;
 
 public record MessageCreateDTO(
         @NotNull(message = "ne peut être vide")
@@ -11,4 +12,10 @@ public record MessageCreateDTO(
         @NotNull(message = "ne peut être vide")
         @NotBlank
         @Size(min = 1, max = 2000, message = "doit contenir entre 1 et 2000 caractères")
-        String content) {}
+        String content) {
+
+        public MessageCreateDTO(Long userId, String content) {
+                this.userId = userId;
+                this.content = StringEscapeUtils.escapeHtml4(content);
+        }
+}

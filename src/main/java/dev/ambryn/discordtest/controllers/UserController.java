@@ -24,15 +24,12 @@ public class UserController {
     @Inject
     UserRepository userRepository;
 
-    @Inject
-    UserMapper userMapper;
-
     @GET
     @Produces(value = "application/json")
     public List<UserGetDTO> getUsers() throws ClassNotFoundException {
         List<UserGetDTO> usersDTO = new ArrayList<>();
         for (User user : userRepository.getUsers()) {
-            usersDTO.add(userMapper.toDto(user));
+            usersDTO.add(UserMapper.toDto(user));
         }
         return usersDTO;
     }
@@ -44,7 +41,7 @@ public class UserController {
         Optional<User> userOption = userRepository.getUser(id);
         if (userOption.isPresent()) {
             User user = userOption.get();
-            UserGetDTO userGetDTO = userMapper.toDto(user);
+            UserGetDTO userGetDTO = UserMapper.toDto(user);
             return Response.ok(userGetDTO).build();
         }
         return Response.status(404).entity(new ErrorMessage(1000, "Could not find user with id=" + id)).build();
@@ -60,7 +57,7 @@ public class UserController {
             return Response.status(409).entity(new ErrorMessage(4009, "User with email " + userDTO.email() + " already exists")).build();
         }
         try {
-            User user = userMapper.toUser(userDTO);
+            User user = UserMapper.toUser(userDTO);
             userRepository.addUser(user);
 
             Optional<User> newUserOption = userRepository
@@ -68,7 +65,7 @@ public class UserController {
 
             if (newUserOption.isPresent()) {
                 User newUser = newUserOption.get();
-                UserGetDTO userGetDTO = userMapper.toDto(newUser);
+                UserGetDTO userGetDTO = UserMapper.toDto(newUser);
 
                 return Response.ok(userGetDTO).build();
             }
