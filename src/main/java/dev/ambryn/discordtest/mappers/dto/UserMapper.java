@@ -2,13 +2,13 @@ package dev.ambryn.discordtest.mappers.dto;
 
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.UserGetDTO;
-import dev.ambryn.discordtest.dto.UserPostDTO;
+import dev.ambryn.discordtest.dto.UserCreateDTO;
 import jakarta.enterprise.context.Dependent;
 import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 @Dependent
 public class UserMapper {
-    public User toUser(UserPostDTO userDTO) {
+    public static User toUser(UserCreateDTO userDTO) {
         Pbkdf2PasswordHashImpl passwordHasher = new Pbkdf2PasswordHashImpl();
         String hashedPassword = passwordHasher.generate(userDTO.password().toCharArray());
 
@@ -23,7 +23,7 @@ public class UserMapper {
         return user;
     }
 
-    public UserGetDTO toDto(User user) {
+    public static UserGetDTO toDto(User user) {
         Long id = user.getId();
         String email = user.getEmail();
         String lastname = user.getLastname();

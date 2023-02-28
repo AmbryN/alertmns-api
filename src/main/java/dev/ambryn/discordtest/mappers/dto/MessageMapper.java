@@ -1,18 +1,15 @@
 package dev.ambryn.discordtest.mappers.dto;
 
 import dev.ambryn.discordtest.beans.Message;
-import dev.ambryn.discordtest.dto.MessageDTO;
+import dev.ambryn.discordtest.beans.User;
+import dev.ambryn.discordtest.dto.MessageGetDTO;
+import dev.ambryn.discordtest.dto.UserGetDTO;
 
 public class MessageMapper {
-    public static Message toMessage(MessageDTO messageDTO) {
-        Message message = new Message();
-//        message.setSender(messageDTO.id());
-        message.setContent(messageDTO.content());
 
-        return message;
-    }
-
-    public static MessageDTO toDTO(Message message) {
-        return new MessageDTO(message.getId(), message.getContent());
+    public static MessageGetDTO toDTO(Message message) {
+        User sender = message.getSender();
+        UserGetDTO senderDTO = UserMapper.toDto(sender);
+        return new MessageGetDTO(message.getId(), senderDTO, message.getContent());
     }
 }

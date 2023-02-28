@@ -40,4 +40,8 @@ public abstract class Subject {
     public Channel getChannel() {
         return channel;
     }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
 }

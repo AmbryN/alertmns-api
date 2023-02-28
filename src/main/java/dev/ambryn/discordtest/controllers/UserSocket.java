@@ -3,7 +3,7 @@ package dev.ambryn.discordtest.controllers;
 import dev.ambryn.discordtest.beans.Channel;
 import dev.ambryn.discordtest.beans.Message;
 import dev.ambryn.discordtest.beans.User;
-import dev.ambryn.discordtest.dto.MessageDTO;
+import dev.ambryn.discordtest.dto.MessageCreateDTO;
 import dev.ambryn.discordtest.repositories.ChannelRepository;
 import dev.ambryn.discordtest.repositories.MessageRepository;
 import dev.ambryn.discordtest.repositories.UserRepository;
@@ -37,23 +37,29 @@ public class UserSocket {
 //        sendAll(session, "{ \"content\": \"Open\" }");
     }
     @OnMessage
-    public void message(Session session, MessageDTO messageDTO) {
+    public void message(Session session, MessageCreateDTO messageCreateDTO) {
         try {
-            BeanValidator.validate(messageDTO);
+            BeanValidator.validate(messageCreateDTO);
         } catch (ConstraintViolationException e) {
-            throw  e;
+            System.out.println("Le format du message est incorrect");
         }
 
-        Optional<User> userOption = userRepository.getUser(messageDTO.userId());
-        Optional<Channel> channelOptional = channelRepository.getChannel(1L);
+        Optional<User> userOption = userRepository.getUser(messageCreateDTO.userId());
+        Optional<Channel> channelOption = channelRepository.getChannel(1L);
 
-        if (userOption.isPresent() && channelOptional.isPresent()) {
-            Message message = new Message(channelOptional.get(), userOption.get(), messageDTO.content());
+        if (userOption.isPresent() && channelOption.isPresent()) {
+            Channel channel = channelOption.get();
+            User user = userOption.get();
+            String content = messageCreateDTO.content();
 
-            Channel channel = channelOptional.get();
+            Message message = new Message();
+            message.setChannel(channel);
+            message.setSender(user);
+            message.setContent(content);
+
             channel.addMessage(message);
             channelRepository.updateChannel(channel);
-            System.out.println(channel.getMessages());
+
             sendAll(session, message);
         }
     }

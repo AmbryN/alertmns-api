@@ -2,7 +2,7 @@ package dev.ambryn.discordtest.controllers;
 
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.UserGetDTO;
-import dev.ambryn.discordtest.dto.UserPostDTO;
+import dev.ambryn.discordtest.dto.UserCreateDTO;
 import dev.ambryn.discordtest.errors.ErrorMessage;
 import dev.ambryn.discordtest.mappers.dto.UserMapper;
 import dev.ambryn.discordtest.repositories.UserRepository;
@@ -53,7 +53,7 @@ public class UserController {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    public Response postUser(UserPostDTO userDTO) {
+    public Response postUser(UserCreateDTO userDTO) {
         BeanValidator.validate(userDTO);
 
         if (userRepository.getUserByEmail(userDTO.email()).isPresent()) {

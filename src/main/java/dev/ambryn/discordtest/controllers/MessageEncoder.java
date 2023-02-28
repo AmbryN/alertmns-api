@@ -1,7 +1,6 @@
 package dev.ambryn.discordtest.controllers;
 
 import dev.ambryn.discordtest.beans.Message;
-import dev.ambryn.discordtest.dto.MessageDTO;
 import jakarta.websocket.*;
 
 public class MessageEncoder implements Encoder.Text<Message> {

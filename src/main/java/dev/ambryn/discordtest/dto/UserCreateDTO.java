@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.apache.commons.text.StringEscapeUtils;
 
-public record UserPostDTO(
+public record UserCreateDTO(
         @NotNull(message = "ne peut être vide")
         @Pattern(regexp = "^[a-zA-Z0-9-_]+\\.*[a-zA-Z0-9-_]*@([a-zA-Z0-9]+\\.{1})+([a-zA-Z]){2,3}$", message = "doit être un email valide")
         String email,
@@ -28,7 +28,7 @@ public record UserPostDTO(
         @Pattern(regexp = "^[a-zA-ZàâçéèếïîôöùûüÀÂÇÉÈẾÏÎÔÖÙÛÜ -]+$", message = "ne doit pas contenir de caractères spéciaux")
         String firstname
 ) {
-    public UserPostDTO(String email, String password, String lastname, String firstname) {
+    public UserCreateDTO(String email, String password, String lastname, String firstname) {
         this.email = email.trim().toLowerCase();
         this.password = password;
         this.lastname = StringEscapeUtils.escapeHtml4(lastname.trim().toUpperCase());
