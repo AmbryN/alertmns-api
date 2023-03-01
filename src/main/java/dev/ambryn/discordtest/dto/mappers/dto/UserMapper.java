@@ -1,4 +1,4 @@
-package dev.ambryn.discordtest.mappers.dto;
+package dev.ambryn.discordtest.dto.mappers.dto;
 
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.UserGetDTO;

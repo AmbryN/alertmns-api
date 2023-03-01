@@ -1,6 +1,6 @@
 package dev.ambryn.discordtest.beans;
 
-import dev.ambryn.discordtest.mappers.exceptions.ValidationExceptionMapper;
+import dev.ambryn.discordtest.errors.mappers.ValidationExceptionMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

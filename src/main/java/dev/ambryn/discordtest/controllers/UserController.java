@@ -4,12 +4,13 @@ import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.UserGetDTO;
 import dev.ambryn.discordtest.dto.UserCreateDTO;
 import dev.ambryn.discordtest.errors.ErrorMessage;
-import dev.ambryn.discordtest.mappers.dto.UserMapper;
+import dev.ambryn.discordtest.dto.mappers.dto.UserMapper;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.validators.BeanValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;

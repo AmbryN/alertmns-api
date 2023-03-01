@@ -1,5 +1,6 @@
 package dev.ambryn.discordtest.beans;
 
+import dev.ambryn.discordtest.enums.EVisibility;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -16,9 +17,8 @@ public class Channel {
     @Column(name = "cha_name", nullable = false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "cha_visibility", nullable = false)
-    private Visibility visibility;
+    @Column(name = "cha_visibility", nullable = false)
+    private EVisibility visibility;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "is_allowed_in",
@@ -42,8 +42,9 @@ public class Channel {
 
     public Channel() {}
 
-    public Channel(String name) {
+    public Channel(String name, EVisibility visibility) {
         this.name = name;
+        this.visibility = visibility;
     }
 
     public void addMember(User member) {
@@ -80,6 +81,18 @@ public class Channel {
 
     public String getName() {
         return name;
+    }
+
+    public EVisibility getVisibility() {
+        return visibility;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setVisibility(EVisibility visibility) {
+        this.visibility = visibility;
     }
 
     public List<User> getSubscribers() {

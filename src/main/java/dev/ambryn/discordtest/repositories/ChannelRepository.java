@@ -2,9 +2,6 @@ package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.Channel;
 import dev.ambryn.discordtest.beans.Message;
-import dev.ambryn.discordtest.beans.User;
-import dev.ambryn.discordtest.errors.DataAccessException;
-import dev.ambryn.discordtest.errors.DataConflictException;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -12,7 +9,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +16,17 @@ import java.util.Optional;
 public class ChannelRepository {
     @PersistenceContext(unitName = "default")
     private EntityManager em;
+
+    @Transactional
+    public Optional<Channel> createChannel(Channel channel) {
+        try {
+            em.persist(channel);
+            em.flush();
+            return Optional.of(channel);
+        } catch (PersistenceException e) {
+            return Optional.empty();
+        }
+    }
 
     @Transactional
     public Optional<Channel> getChannel(Long id) {
@@ -33,12 +40,8 @@ public class ChannelRepository {
         }
     }
 
-    public List<Message> getMessages(Long id) {
-        Optional<Channel> channelOptional = getChannel(id);
-        if (channelOptional.isPresent()) {
-            return channelOptional.get().getMessages();
-        }
-        throw new RuntimeException();
+    public Optional<List<Message>> getMessages(Long id) {
+        return getChannel(id).flatMap(channel -> Optional.ofNullable(channel.getMessages()));
     }
 
     @Transactional

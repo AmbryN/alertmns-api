@@ -1,4 +1,4 @@
-package dev.ambryn.discordtest.mappers.exceptions;
+package dev.ambryn.discordtest.errors.mappers;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
