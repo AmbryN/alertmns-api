@@ -31,6 +31,10 @@ dependencies {
     testImplementation('org.glassfish.expressly:expressly:5.0.0')
     testImplementation('org.hibernate.validator:hibernate-validator-cdi:8.0.0.Final')
 
+    // Needed for JAX RS (REST) tests
+    testImplementation("org.glassfish.jersey.core:jersey-common:3.0.4")
+    testImplementation("jakarta.ws.rs:jakarta.ws.rs-api:3.0.0")
+
     // Logback
     implementation('ch.qos.logback:logback-classic:1.4.5')
     // https://mvnrepository.com/artifact/org.glassfish.soteria/jakarta.security.enterprise
