@@ -16,8 +16,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Path("/channel")
@@ -29,15 +27,12 @@ public class ChannelController {
     @GET
     @Path("/{id:[0-9]+}/messages")
     public Response getMessages(@PathParam("id") Long id) {
-        Optional<List<Message>> oMessages = channelRepository.getMessages(id);
-
-        return oMessages
-                .flatMap(messages ->
-                        Optional.of(messages.stream()
+        return channelRepository.getMessages(id)
+                .map(messages ->
+                        messages.stream()
                                 .map(MessageMapper::toDTO)
-                                .collect(Collectors.toList())))
-                .flatMap(dtos ->
-                        Optional.ofNullable(Ok.build(dtos)))
+                                .collect(Collectors.toList()))
+                .map(Ok::build)
                 .orElseGet(() ->
                         NotFound.build("Could not find messages of channel with id=" + id)
                 );
@@ -53,10 +48,8 @@ public class ChannelController {
 
         return channelRepository
                 .createChannel(newChannel)
-                .flatMap(channel ->
-                        Optional.of(
-                                Created.build(ChannelMapper.toDTO(channel))
-                        ))
+                .map(ChannelMapper::toDTO)
+                .map(Created::build)
                 .orElseGet(() -> ServerError.build("Could not create channel"));
     }
 }

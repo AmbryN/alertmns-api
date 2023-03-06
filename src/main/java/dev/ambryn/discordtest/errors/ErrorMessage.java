@@ -1,3 +1,3 @@
 package dev.ambryn.discordtest.errors;
 
-public record ErrorMessage(int errorCode, String message) {}
+public record ErrorMessage(int errorCode, String error) {}

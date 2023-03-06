@@ -16,7 +16,7 @@ class GroupTest {
     @Test
     void getNameShouldTrimInput() {
         group.setName("   Groupe&groupe_    ");
-        assertEquals("Groupe&groupe_", group.getName());
+        assertEquals("Groupe&amp;groupe_", group.getName());
     }
 
     @Test

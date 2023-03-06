@@ -3,6 +3,7 @@ package dev.ambryn.discordtest.responses;
 import jakarta.ws.rs.core.Response;
 
 public final class Ok {
+
     public static Response build(Object entity) {
         return Response
                 .ok()

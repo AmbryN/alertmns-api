@@ -11,7 +11,7 @@ class MessageTest {
 
     @BeforeEach
     void setup() {
-        msg = new Message(new User(), "Content", null);
+        msg = new Message(new Channel(), new User(), "Content", null);
     }
 
     @Test

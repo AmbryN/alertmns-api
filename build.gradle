@@ -25,6 +25,9 @@ dependencies {
 
     compileOnly('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
     testImplementation('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
+
+    // Logback
+    implementation('ch.qos.logback:logback-classic:1.4.5')
     // https://mvnrepository.com/artifact/org.glassfish.soteria/jakarta.security.enterprise
     implementation group: 'org.glassfish.soteria', name: 'jakarta.security.enterprise', version: '3.0.2'
 
