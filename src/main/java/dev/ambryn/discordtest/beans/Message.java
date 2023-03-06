@@ -2,6 +2,8 @@ package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Message")
 public class Message extends Subject {
@@ -54,5 +56,29 @@ public class Message extends Subject {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "sender=" + sender +
+                ", content='" + content + '\'' +
+                ", file=" + file +
+                "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(sender, message.sender)
+                && Objects.equals(content, message.content)
+                && Objects.equals(file, message.file);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, content, file);
     }
 }

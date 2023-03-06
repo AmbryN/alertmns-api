@@ -2,6 +2,8 @@ package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "File")
 public class File {
@@ -33,5 +35,27 @@ public class File {
 
     public String getPath() {
         return path;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        File file = (File) o;
+        return id.equals(file.id) && name.equals(file.name) && path.equals(file.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, path);
     }
 }

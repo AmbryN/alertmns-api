@@ -1,7 +1,6 @@
 package dev.ambryn.discordtest.controllers;
 
 import dev.ambryn.discordtest.beans.Channel;
-import dev.ambryn.discordtest.beans.Message;
 import dev.ambryn.discordtest.dto.ChannelCreateDTO;
 import dev.ambryn.discordtest.responses.Created;
 import dev.ambryn.discordtest.responses.NotFound;

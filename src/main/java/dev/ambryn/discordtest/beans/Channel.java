@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Channel")
@@ -113,5 +114,33 @@ public class Channel {
 
     public void notifySubscribers()  {
         // TODO
+    }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", visibility=" + visibility +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Channel channel = (Channel) o;
+        return Objects.equals(id, channel.id)
+                && Objects.equals(name, channel.name)
+                && visibility == channel.visibility
+                && Objects.equals(members, channel.members)
+                && Objects.equals(subscribers, channel.subscribers)
+                && Objects.equals(messages, channel.messages)
+                && Objects.equals(meetings, channel.meetings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, visibility, members, subscribers, messages, meetings);
     }
 }

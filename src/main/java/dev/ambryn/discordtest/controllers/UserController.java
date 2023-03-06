@@ -4,7 +4,6 @@ import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.UserGetDTO;
 import dev.ambryn.discordtest.dto.UserCreateDTO;
 import dev.ambryn.discordtest.dto.mappers.dto.UserMapper;
-import dev.ambryn.discordtest.errors.DataAccessException;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.responses.Conflict;
 import dev.ambryn.discordtest.responses.NotFound;
@@ -18,8 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;

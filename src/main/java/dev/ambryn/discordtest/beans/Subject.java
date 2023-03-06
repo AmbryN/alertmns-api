@@ -44,4 +44,13 @@ public abstract class Subject {
     public void setChannel(Channel channel) {
         this.channel = channel;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", sentAt=" + sentAt +
+                ", channel=" + channel +
+                '}';
+    }
 }

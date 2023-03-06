@@ -131,8 +131,25 @@ public class User {
                 ", password='" + password + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", roles=" + roles +
-                ", queue=" + queue +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(lastname, user.lastname)
+                && Objects.equals(firstname, user.firstname)
+                && Objects.equals(roles, user.roles)
+                && Objects.equals(queue, user.queue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, lastname, firstname, roles, queue);
     }
 }
