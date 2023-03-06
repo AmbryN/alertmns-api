@@ -29,9 +29,9 @@ public record UserCreateDTO(
         String firstname
 ) {
     public UserCreateDTO(String email, String password, String lastname, String firstname) {
-        this.email = StringEscapeUtils.escapeHtml4(email.trim().toLowerCase());
+        this.email = email != null ? StringEscapeUtils.escapeHtml4(email.trim().toLowerCase()) : null;
         this.password = password;
-        this.lastname = StringEscapeUtils.escapeHtml4(lastname.trim().toUpperCase());
-        this.firstname = StringEscapeUtils.escapeHtml4(firstname.trim());
+        this.lastname = lastname != null ? StringEscapeUtils.escapeHtml4(lastname.trim().toUpperCase()) : null;
+        this.firstname = firstname != null ? StringEscapeUtils.escapeHtml4(firstname.trim()) : null;
     }
 }

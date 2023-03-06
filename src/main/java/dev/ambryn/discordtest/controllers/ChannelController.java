@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.stream.Collectors;
 
-@Path("/channel")
+@Path("/channels")
 public class ChannelController {
 
     @Inject

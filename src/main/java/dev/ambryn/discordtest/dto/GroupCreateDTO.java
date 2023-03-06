@@ -11,6 +11,6 @@ public record GroupCreateDTO(
         @Size(min = 1, max = 50, message = "doit contenir entre 1 et 50 caractères")
         String name) {
         public GroupCreateDTO(String name) {
-                this.name = StringEscapeUtils.escapeHtml4(name.trim().toUpperCase());
+                this.name = name != null ? StringEscapeUtils.escapeHtml4(name.trim().toUpperCase()) : null;
         }
 }

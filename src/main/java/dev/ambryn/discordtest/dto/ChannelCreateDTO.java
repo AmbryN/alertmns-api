@@ -11,11 +11,11 @@ public record ChannelCreateDTO(
 
         @NotNull(message = "ne peut être vide")
         @NotBlank
-        @Pattern(regexp = "^((PUBLIC)|(PRIVATE)){1}$", message = "doit être PUBLIC ou PRIVATE")
+        @Pattern(regexp = "^((PUBLIC)|(PRIVATE))$", message = "doit être PUBLIC ou PRIVATE")
         String visibility) {
 
         public ChannelCreateDTO(String name, String visibility) {
-                this.name = StringEscapeUtils.escapeHtml4(name.trim().toUpperCase());
-                this.visibility = StringEscapeUtils.escapeHtml4(visibility.trim().toUpperCase());
+                this.name = name != null ? StringEscapeUtils.escapeHtml4(name.trim().toUpperCase()) : null;
+                this.visibility = visibility != null ? StringEscapeUtils.escapeHtml4(visibility.trim().toUpperCase()) : null;
         }
 }

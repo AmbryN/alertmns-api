@@ -6,12 +6,20 @@ import java.util.Set;
 
 public class BeanValidator {
     public static <T> void validate(T bean) {
+        Set<ConstraintViolation<T>> violations = computeViolations(bean);
+        validate(violations);
+    }
+
+    static <T> void validate(Set<ConstraintViolation<T>> violations) {
+        if (violations.size() > 0) {
+            throw new ConstraintViolationException(violations);
+        }
+    }
+
+    static <T> Set<ConstraintViolation<T>> computeViolations(T bean) {
         try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
             Validator validator = validatorFactory.getValidator();
-            Set<ConstraintViolation<T>> violations = validator.validate(bean);
-            if (violations.size() > 0) {
-                throw new ConstraintViolationException(violations);
-            }
+            return validator.validate(bean);
         }
     }
 }
