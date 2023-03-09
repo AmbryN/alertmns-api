@@ -1,5 +1,9 @@
 package dev.ambryn.discordtest.errors.mappers;
 
+import dev.ambryn.discordtest.enums.EError;
+import dev.ambryn.discordtest.errors.Error;
+import dev.ambryn.discordtest.responses.ErrorResponse;
+import dev.ambryn.discordtest.responses.ErrorResponseBuilder;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
@@ -15,16 +19,22 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
     @Override
     public Response toResponse(ConstraintViolationException exception) {
         List<ConstraintViolationBean> messages = new ArrayList<>();
+        List<Error> errors = new ArrayList<>();
         for (ConstraintViolation cv : exception.getConstraintViolations()) {
+            ConstraintViolationBean cvb = new ConstraintViolationBean(cv);
+            Error error = new Error(EError.BadArgument, cvb.getTarget(), cvb.getMessage());
             messages.add(new ConstraintViolationBean(cv));
+            errors.add(error);
         }
+
+        ErrorResponse response = ErrorResponseBuilder.build(EError.BadArgument, "Format errors", errors);
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(messages)
+                .entity(response)
                 .build();
     }
 
     public static class ConstraintViolationBean {
-        private final String property;
+        private final String target;
         private final String message;
         private final String value;
 
@@ -33,14 +43,14 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
             for (Path.Node node : constraintViolation.getPropertyPath()) {
                 propertyPath = node.getName();
             }
-            this.property = propertyPath;
+            this.target = propertyPath;
             this.message = constraintViolation.getMessage();
             if (constraintViolation.getInvalidValue() != null) this.value = constraintViolation.getInvalidValue().toString();
             else this.value = null;
         }
 
-        public String getProperty() {
-            return property;
+        public String getTarget() {
+            return target;
         }
 
         public String getMessage() {

@@ -40,8 +40,12 @@ public class ChannelRepository {
         }
     }
 
+    public void addMessage(Long id, Message message) {
+        getChannel(id).ifPresent(channel -> channel.addMessage(message));
+    }
+
     public Optional<List<Message>> getMessages(Long id) {
-        return getChannel(id).flatMap(channel -> Optional.ofNullable(channel.getMessages()));
+        return getChannel(id).map(Channel::getMessages);
     }
 
     @Transactional

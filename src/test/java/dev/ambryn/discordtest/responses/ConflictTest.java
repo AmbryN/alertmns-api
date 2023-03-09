@@ -1,6 +1,5 @@
 package dev.ambryn.discordtest.responses;
 
-import dev.ambryn.discordtest.errors.ErrorMessage;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +11,8 @@ class ConflictTest {
     void buildShouldReturnAStatus409AndErrorMessage() {
         try(Response response = Conflict.build("Test")) {
             assertEquals(409, response.getStatus());
-            assertInstanceOf(ErrorMessage.class, response.getEntity());
-            assertEquals("Test", ((ErrorMessage) response.getEntity()).error());
+            assertInstanceOf(ErrorResponse.class, response.getEntity());
+            assertEquals("Test", ((ErrorResponse) response.getEntity()).error());
         }
     }
 }

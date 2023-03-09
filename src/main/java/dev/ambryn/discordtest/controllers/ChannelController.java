@@ -1,7 +1,11 @@
 package dev.ambryn.discordtest.controllers;
 
 import dev.ambryn.discordtest.beans.Channel;
+import dev.ambryn.discordtest.beans.Message;
+import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.ChannelCreateDTO;
+import dev.ambryn.discordtest.dto.MessageCreateDTO;
+import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.responses.Created;
 import dev.ambryn.discordtest.responses.NotFound;
 import dev.ambryn.discordtest.dto.mappers.dto.ChannelMapper;
@@ -22,6 +26,8 @@ public class ChannelController {
 
     @Inject
     ChannelRepository channelRepository;
+    @Inject
+    UserRepository userRepository;
 
     @GET
     @Path("/{id:[0-9]+}/messages")
@@ -35,6 +41,19 @@ public class ChannelController {
                 .orElseGet(() ->
                         NotFound.build("Could not find messages of channel with id=" + id)
                 );
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id:[0-9]+}/messages")
+    public Response addMessage(@PathParam("id") Long id, MessageCreateDTO messageDTO) {
+        BeanValidator.validate(messageDTO);
+        Channel channel = channelRepository.getChannel(id).get();
+        User user = userRepository.getUser(messageDTO.userId()).get();
+
+        Message message = MessageMapper.toMessage(channel, user, messageDTO);
+        channelRepository.addMessage(id, message);
+                return Created.build(MessageMapper.toDTO(message));
     }
 
     @POST
