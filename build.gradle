@@ -26,6 +26,9 @@ dependencies {
     compileOnly('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
     testImplementation('jakarta.platform:jakarta.jakartaee-web-api:9.1.0')
 
+    implementation('io.jsonwebtoken:jjwt:0.9.1')
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
+
     // Needed for Bean validation test because test environment doesn't run on Glassfish server
     testImplementation('org.hibernate.validator:hibernate-validator:8.0.0.Final')
     testImplementation('org.glassfish.expressly:expressly:5.0.0')

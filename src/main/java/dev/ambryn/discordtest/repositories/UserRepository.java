@@ -2,10 +2,12 @@ package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.errors.DataAccessException;
+import dev.ambryn.discordtest.validators.BeanValidator;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.transaction.*;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

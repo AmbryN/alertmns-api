@@ -2,6 +2,7 @@ package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.Channel;
 import dev.ambryn.discordtest.beans.Message;
+import dev.ambryn.discordtest.beans.User;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -42,10 +43,6 @@ public class ChannelRepository {
 
     public void addMessage(Long id, Message message) {
         getChannel(id).ifPresent(channel -> channel.addMessage(message));
-    }
-
-    public Optional<List<Message>> getMessages(Long id) {
-        return getChannel(id).map(Channel::getMessages);
     }
 
     @Transactional

@@ -5,6 +5,9 @@ import dev.ambryn.discordtest.beans.Message;
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.dto.ChannelCreateDTO;
 import dev.ambryn.discordtest.dto.MessageCreateDTO;
+import dev.ambryn.discordtest.enums.ERole;
+import dev.ambryn.discordtest.filters.Authorize;
+import dev.ambryn.discordtest.filters.MembersOnly;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.responses.Created;
 import dev.ambryn.discordtest.responses.NotFound;
@@ -31,8 +34,11 @@ public class ChannelController {
 
     @GET
     @Path("/{id:[0-9]+}/messages")
+    @Authorize(level = ERole.ADMIN)
+    @MembersOnly
     public Response getMessages(@PathParam("id") Long id) {
-        return channelRepository.getMessages(id)
+        return channelRepository.getChannel(id)
+                .map(Channel::getMessages)
                 .map(messages ->
                         messages.stream()
                                 .map(MessageMapper::toDTO)

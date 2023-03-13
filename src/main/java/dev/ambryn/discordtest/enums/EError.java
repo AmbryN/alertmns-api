@@ -5,5 +5,7 @@ public enum EError {
     MethodNotAllowed,
     NotFound,
     ServerError,
-    Conflict
+    Conflict,
+    Unauthorized,
+    Forbidden
 }

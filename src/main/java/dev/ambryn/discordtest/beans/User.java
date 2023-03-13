@@ -39,7 +39,7 @@ public class User {
     @Pattern(regexp = "^[a-zA-ZàâçéèếïîôöùûüÀÂÇÉÈẾÏÎÔÖÙÛÜ -]+$", message = "ne doit pas contenir de caractères spéciaux")
     private String firstname;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "has_role",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
@@ -131,6 +131,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
+                ", roles=" + roles +
+                ", queue=" + queue +
                 '}';
     }
 
@@ -143,9 +145,7 @@ public class User {
                 && Objects.equals(email, user.email)
                 && Objects.equals(password, user.password)
                 && Objects.equals(lastname, user.lastname)
-                && Objects.equals(firstname, user.firstname)
-                && Objects.equals(roles, user.roles)
-                && Objects.equals(queue, user.queue);
+                && Objects.equals(firstname, user.firstname);
     }
 
     @Override
