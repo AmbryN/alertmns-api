@@ -38,7 +38,7 @@ public class UserRepository {
     public Optional<User> getUser(Long id) {
         try {
             logger.debug("Fetching user with id=");
-            User user = (User) em.createQuery("SELECT u FROM User u WHERE u.id = :id")
+            User user = (User) em.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = :id")
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(user);

@@ -39,14 +39,14 @@ public class User {
     @Pattern(regexp = "^[a-zA-ZàâçéèếïîôöùûüÀÂÇÉÈẾÏÎÔÖÙÛÜ -]+$", message = "ne doit pas contenir de caractères spéciaux")
     private String firstname;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "has_role",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     )
     private List<Role> roles;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "is_notified_of",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "not_id", referencedColumnName = "not_id")

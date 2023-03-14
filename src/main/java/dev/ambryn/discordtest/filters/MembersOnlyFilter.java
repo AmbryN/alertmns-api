@@ -7,6 +7,7 @@ import dev.ambryn.discordtest.repositories.ChannelRepository;
 import dev.ambryn.discordtest.repositories.UserRepository;
 import dev.ambryn.discordtest.security.JwtUtils;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.ForbiddenException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -45,6 +46,6 @@ public class MembersOnlyFilter implements ContainerRequestFilter {
                         .orElse(false);
 
         if (!isMemberOfChannel)
-            throw new UnauthorizedException("You are not a member of this channel");
+            throw new ForbiddenException("You are not a member of this channel");
     }
 }

@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/users")
-@Authorize
 public class UserController {
 
     Logger logger = LoggerFactory.getLogger("UserController");
@@ -58,7 +57,6 @@ public class UserController {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @Authorize(level = ERole.ADMIN)
     public Response postUser(UserCreateDTO userDTO) {
         logger.debug("Creating new user from DTO {}", userDTO);
         BeanValidator.validate(userDTO);
