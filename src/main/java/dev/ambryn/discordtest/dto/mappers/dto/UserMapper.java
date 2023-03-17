@@ -9,17 +9,17 @@ import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 @Dependent
 public class UserMapper {
     public static User toUser(UserCreateDTO userDTO) {
-        Pbkdf2PasswordHashImpl passwordHasher = new Pbkdf2PasswordHashImpl();
-        String hashedPassword = passwordHasher.generate(userDTO.password().toCharArray());
-
         String email = userDTO.email();
+        String password = userDTO.password();
         String lastname = userDTO.lastname();
         String firstname = userDTO.firstname();
+
         User user = new User();
         user.setEmail(email);
-        user.setPassword(hashedPassword);
+        user.setPassword(password);
         user.setLastname(lastname);
         user.setFirstname(firstname);
+
         return user;
     }
 

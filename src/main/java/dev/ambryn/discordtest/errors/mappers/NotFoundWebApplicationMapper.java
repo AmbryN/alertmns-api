@@ -1,8 +1,8 @@
 package dev.ambryn.discordtest.errors.mappers;
 
 import dev.ambryn.discordtest.enums.EError;
+import dev.ambryn.discordtest.errors.Error;
 import dev.ambryn.discordtest.responses.ErrorResponse;
-import dev.ambryn.discordtest.responses.ErrorResponseBuilder;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -12,11 +12,14 @@ import jakarta.ws.rs.ext.Provider;
 public class NotFoundWebApplicationMapper implements ExceptionMapper<NotFoundException> {
     @Override
     public Response toResponse(NotFoundException exception) {
-        ErrorResponse error = ErrorResponseBuilder.build(EError.NotFound, "Could not find ressource", null);
+        Error.Builder builder = new Error.Builder();
+        builder.setCode(EError.NotFound);
+        builder.setMessage("Could not find ressource");
+        Error error = builder.build();
         return Response
                 .status(Response.Status.NOT_FOUND)
                 .header("Content-Type", "application/json")
-                .entity(error)
+                .entity(new ErrorResponse(error))
                 .build();
     }
 }

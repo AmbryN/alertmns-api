@@ -3,7 +3,6 @@ package dev.ambryn.discordtest.errors.mappers;
 import dev.ambryn.discordtest.enums.EError;
 import dev.ambryn.discordtest.errors.Error;
 import dev.ambryn.discordtest.responses.ErrorResponse;
-import dev.ambryn.discordtest.responses.ErrorResponseBuilder;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
@@ -22,14 +21,23 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
         List<Error> errors = new ArrayList<>();
         for (ConstraintViolation cv : exception.getConstraintViolations()) {
             ConstraintViolationBean cvb = new ConstraintViolationBean(cv);
-            Error error = new Error(EError.BadArgument, cvb.getTarget(), cvb.getMessage());
+            Error.Builder builder = new Error.Builder();
+            builder.setCode(EError.BadArgument);
+            builder.setTarget(cvb.getTarget());
+            builder.setValue(cvb.getValue());
+            builder.setMessage(cvb.getMessage());
+            Error error = builder.build();
             messages.add(new ConstraintViolationBean(cv));
             errors.add(error);
         }
 
-        ErrorResponse response = ErrorResponseBuilder.build(EError.BadArgument, "Format errors", errors);
+        Error.Builder builder = new Error.Builder();
+        builder.setCode(EError.BadArgument);
+        builder.setDetails(errors);
+        Error error = builder.build();
+
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(response)
+                .entity(new ErrorResponse(error))
                 .build();
     }
 

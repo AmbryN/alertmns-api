@@ -3,6 +3,7 @@ package dev.ambryn.discordtest.beans;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.apache.commons.text.StringEscapeUtils;
+import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 import java.util.*;
 
@@ -104,11 +105,12 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email.trim().toLowerCase();
+        this.email = StringEscapeUtils.escapeHtml4(email.trim().toLowerCase());
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        Pbkdf2PasswordHashImpl passwordHasher = new Pbkdf2PasswordHashImpl();
+        this.password = passwordHasher.generate(password.toCharArray());
     }
 
     public void setLastname(String lastname) {
@@ -120,7 +122,7 @@ public class User {
     }
 
     public List<Role> getRoles() {
-        return roles;
+        return Collections.unmodifiableList(roles);
     }
 
     @Override
