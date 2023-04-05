@@ -2,10 +2,14 @@ package dev.ambryn.discordtest.beans;
 
 import dev.ambryn.discordtest.enums.ERole;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@ToString
 @Table(name = "Role")
 public class Role {
     @Id
@@ -20,22 +24,6 @@ public class Role {
 
     public Role(ERole name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public ERole getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name=" + name +
-                '}';
     }
 
     @Override

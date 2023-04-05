@@ -1,10 +1,16 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "Message")
 public class Message extends Subject {
 
@@ -32,39 +38,6 @@ public class Message extends Subject {
         this.sender = sender;
         this.content = content;
         this.file = file;
-    }
-
-    public User getSender() {
-        return sender;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "sender=" + sender +
-                ", content='" + content + '\'' +
-                ", file=" + file +
-                "} " + super.toString();
     }
 
     @Override

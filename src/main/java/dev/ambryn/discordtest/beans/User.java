@@ -2,12 +2,16 @@ package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.text.StringEscapeUtils;
 import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 import java.util.*;
 
 @Entity
+@Getter
+@ToString
 @Table(name = "User", uniqueConstraints = @UniqueConstraint(name = "email", columnNames = { "usr_email" }))
 public class User {
     @Id
@@ -45,6 +49,7 @@ public class User {
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     )
+    @ToString.Exclude
     private List<Role> roles;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
@@ -52,6 +57,7 @@ public class User {
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "not_id", referencedColumnName = "not_id")
     )
+    @ToString.Exclude
     private ArrayDeque<Notification> queue;
 
     public User() {
@@ -84,26 +90,6 @@ public class User {
         this.queue.poll();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
     public void setEmail(String email) {
         this.email = StringEscapeUtils.escapeHtml4(email.trim().toLowerCase());
     }
@@ -123,19 +109,6 @@ public class User {
 
     public List<Role> getRoles() {
         return Collections.unmodifiableList(roles);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", roles=" + roles +
-                ", queue=" + queue +
-                '}';
     }
 
     @Override

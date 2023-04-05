@@ -1,13 +1,20 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "User_Group")
 public class Group {
     @Id
@@ -23,6 +30,7 @@ public class Group {
             joinColumns = @JoinColumn(name = "gro_id", referencedColumnName = "gro_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
+    @ToString.Exclude
     private List<User> members;
 
     protected Group() {
@@ -42,32 +50,12 @@ public class Group {
         this.members.remove(user);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = StringEscapeUtils.escapeHtml4(name).trim();
     }
 
     public List<User> getMembers() {
-        return members;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return Collections.unmodifiableList(members);
     }
 
     @Override

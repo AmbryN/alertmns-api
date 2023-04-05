@@ -1,10 +1,16 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "File")
 public class File {
     @Id
@@ -23,27 +29,6 @@ public class File {
     public File(String name, String path) {
         this.name = name;
         this.path = path;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    @Override
-    public String toString() {
-        return "File{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", path='" + path + '\'' +
-                '}';
     }
 
     @Override

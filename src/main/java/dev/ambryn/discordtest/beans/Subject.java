@@ -1,10 +1,14 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Subject")
 public abstract class Subject {
@@ -27,30 +31,5 @@ public abstract class Subject {
     public Subject(Channel channel) {
         this.sentAt = LocalDateTime.now();
         this.channel = channel;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDateTime getSentAt() {
-        return sentAt;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "id=" + id +
-                ", sentAt=" + sentAt +
-                ", channel=" + channel +
-                '}';
     }
 }

@@ -2,12 +2,19 @@ package dev.ambryn.discordtest.beans;
 
 import dev.ambryn.discordtest.enums.EVisibility;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "Channel")
 public class Channel {
     @Id
@@ -26,6 +33,7 @@ public class Channel {
             joinColumns = @JoinColumn(name = "cha_id", referencedColumnName = "cha_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
+    @ToString.Exclude
     private ArrayList<User> members;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -33,12 +41,15 @@ public class Channel {
             joinColumns = @JoinColumn(name = "cha_id", referencedColumnName = "cha_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id")
     )
+    @ToString.Exclude
     private ArrayList<User> subscribers;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @ToString.Exclude
     private List<Message> messages;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @ToString.Exclude
     private List<Meeting> meetings;
 
     public Channel() {}
@@ -76,53 +87,24 @@ public class Channel {
         this.messages.add(message);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public EVisibility getVisibility() {
-        return visibility;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setVisibility(EVisibility visibility) {
-        this.visibility = visibility;
-    }
-
     public List<User> getSubscribers() {
-        return subscribers;
+        return Collections.unmodifiableList(subscribers);
     }
 
     public List<User> getMembers() {
-        return members;
+        return Collections.unmodifiableList(members);
     }
 
     public List<Message> getMessages() {
-        return messages;
+        return Collections.unmodifiableList(messages);
     }
 
     public List<Meeting> getMeetings() {
-        return meetings;
+        return Collections.unmodifiableList(meetings);
     }
 
     public void notifySubscribers()  {
         // TODO
-    }
-
-    @Override
-    public String toString() {
-        return "Channel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", visibility=" + visibility +
-                '}';
     }
 
     @Override

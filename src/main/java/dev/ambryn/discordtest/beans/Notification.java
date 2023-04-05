@@ -1,10 +1,16 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "Notification")
 public class Notification {
     @Id
@@ -23,27 +29,6 @@ public class Notification {
 
     public Notification(Subject sub) {
        this.subject = sub;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    @Override
-    public String toString() {
-        return "Notification{" +
-                "id=" + id +
-                ", seen=" + seen +
-                ", subject=" + subject +
-                '}';
     }
 
     @Override

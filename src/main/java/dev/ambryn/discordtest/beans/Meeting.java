@@ -1,11 +1,15 @@
 package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Getter
+@ToString
 @Table(name = "Meeting")
 public class Meeting extends Subject {
 
@@ -29,32 +33,6 @@ public class Meeting extends Subject {
     public Meeting(String name) {
         super();
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public User getOrganizer() {
-        return organizer;
-    }
-
-    @Override
-    public String toString() {
-        return "Meeting{" +
-                "name='" + name + '\'' +
-                ", dateTime=" + dateTime +
-                ", duration=" + duration +
-                ", organizer=" + organizer +
-                "} " + super.toString();
     }
 
     @Override
