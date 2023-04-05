@@ -114,15 +114,11 @@ public class Channel {
         Channel channel = (Channel) o;
         return Objects.equals(id, channel.id)
                 && Objects.equals(name, channel.name)
-                && visibility == channel.visibility
-                && Objects.equals(members, channel.members)
-                && Objects.equals(subscribers, channel.subscribers)
-                && Objects.equals(messages, channel.messages)
-                && Objects.equals(meetings, channel.meetings);
+                && visibility == channel.visibility;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, visibility, members, subscribers, messages, meetings);
+        return Objects.hash(id, name, visibility);
     }
 }

@@ -42,24 +42,12 @@ public class ChannelController {
                 .map(messages ->
                         messages.stream()
                                 .map(MessageMapper::toDTO)
-                                .collect(Collectors.toList()))
+                                .toList()
+                )
                 .map(Ok::build)
                 .orElseGet(() ->
                         NotFound.build("Could not find messages of channel with id=" + id)
                 );
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{id:[0-9]+}/messages")
-    public Response addMessage(@PathParam("id") Long id, MessageCreateDTO messageDTO) {
-        BeanValidator.validate(messageDTO);
-        Channel channel = channelRepository.getChannel(id).get();
-        User user = userRepository.getUser(messageDTO.userId()).get();
-
-        Message message = MessageMapper.toMessage(channel, user, messageDTO);
-        channelRepository.addMessage(id, message);
-                return Created.build(MessageMapper.toDTO(message));
     }
 
     @POST

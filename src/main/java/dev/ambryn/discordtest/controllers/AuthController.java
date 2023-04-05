@@ -13,6 +13,8 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Path("/login")
 public class AuthController {
@@ -21,6 +23,8 @@ public class AuthController {
     @Inject
     CredentialService credentialService;
 
+    Logger logger = LoggerFactory.getLogger("UserController");
+
     @Inject
     JwtUtils jwt;
 
@@ -28,13 +32,11 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO login) {
         BeanValidator.validate(login);
+        logger.debug("Try to login with email=" + login.email());
 
         return userRepository.getUserByEmail(login.email())
-                .filter(user ->
-                        credentialService.verifyCredentials(user, login.password()))
-                .map(user ->
-                        Ok.build(jwt.generateJwtToken(user)))
-                .orElseGet(() ->
-                        Unauthorized.build("Email and/or password is/are incorrect"));
+                .filter(user -> credentialService.verifyCredentials(user, login.password()))
+                .map(user -> Ok.build(jwt.generateJwtToken(user)))
+                .orElseGet(() -> Unauthorized.build("Email and/or password is/are incorrect"));
     }
 }

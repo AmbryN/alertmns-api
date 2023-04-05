@@ -38,7 +38,7 @@ public class UserController {
         return userRepository.getUsers()
                 .stream()
                 .map(UserMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @GET
