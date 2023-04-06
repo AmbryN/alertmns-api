@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ErrorBuilderTest {
 
@@ -14,20 +15,20 @@ class ErrorBuilderTest {
     void shouldBuildTheAppropriateResponse() {
         Error.Builder builder = new Error.Builder();
 
-        builder.setCode(EError.BadArgument);
-        builder.setMessage("E1");
-        Error error1 = builder.build();
+        Error error1 = builder.setCode(EError.BadArgument)
+                .setMessage("E1")
+                .build();
 
-        builder.setCode(EError.NotFound);
-        builder.setMessage("E2");
-        Error error2 = builder.build();
+        Error error2 = builder.setCode(EError.NotFound)
+                .setMessage("E2")
+                .build();
 
         List<Error> errors = List.of(error1, error2);
 
-        builder.setCode(EError.BadArgument);
-        builder.setMessage("Test");
-        builder.setDetails(errors);
-        Error testError = builder.build();
+        Error testError = builder.setCode(EError.BadArgument)
+                .setMessage("Test")
+                .setDetails(errors)
+                .build();
 
         assertEquals(EError.BadArgument, testError.getCode());
         assertEquals("Test", testError.getMessage());
