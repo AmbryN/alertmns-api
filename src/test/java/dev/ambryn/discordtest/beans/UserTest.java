@@ -1,11 +1,11 @@
 package dev.ambryn.discordtest.beans;
 
+import dev.ambryn.discordtest.enums.ERole;
 import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     User user;
@@ -69,5 +69,27 @@ class UserTest {
     void setFirstnameShouldEscapeHTMLChars() {
         user.setFirstname("<>&\"");
         assertEquals("&lt;&gt;&amp;&quot;", user.getFirstname());
+    }
+
+    @Test
+    void shouldAddRole() {
+        Role role = new Role(ERole.USER);
+        user.addRole(role);
+        assertTrue(user.getRoles().contains(role));
+    }
+
+    @Test
+    void shouldRemoveRole() {
+        Role role = new Role(ERole.USER);
+        user.addRole(role);
+        user.removeRole(role);
+        assertFalse(user.getRoles().contains(role));
+    }
+
+    @Test
+    void shouldAddNotification() {
+        Notification notification = new Notification();
+        user.addNotification(notification);
+        assertTrue(user.getNotifications().contains(notification));
     }
 }

@@ -2,13 +2,16 @@ package dev.ambryn.discordtest.beans;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @Table(name = "Meeting")
 public class Meeting extends Subject {
@@ -27,12 +30,11 @@ public class Meeting extends Subject {
     private User organizer;
 
     public Meeting() {
-        this(null);
+
     }
 
-    public Meeting(String name) {
-        super();
-        this.name = name;
+    public void setName(String name) {
+        this.name = StringEscapeUtils.escapeHtml4(name.trim());
     }
 
     @Override

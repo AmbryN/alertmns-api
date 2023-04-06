@@ -51,7 +51,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     )
     @ToString.Exclude
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "is_notified_of",
@@ -59,20 +59,20 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "not_id", referencedColumnName = "not_id")
     )
     @ToString.Exclude
-    private ArrayDeque<Notification> queue;
+    private Set<Notification> queue;
 
     public User() {
-        this.roles = new ArrayList<>();
-        this.queue = new ArrayDeque<>();
+        this.roles = new HashSet<>();
+        this.queue = new HashSet<>();
     }
 
     public User(String email, String password, String lastname, String firstname) {
-        this.email = email;
-        this.password = password;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.roles = new ArrayList<>();
-        this.queue = new ArrayDeque<>();
+        setEmail(email);
+        setPassword(password);
+        setLastname(lastname);
+        setFirstname(firstname);
+        this.roles = new HashSet<>();
+        this.queue = new HashSet<>();
     }
 
     public void addRole(Role role) {
@@ -83,12 +83,12 @@ public class User {
         this.roles.remove(role);
     }
 
-    public void enqueuEvent(Notification notification) {
+    public void addNotification(Notification notification) {
         this.queue.add(notification);
     }
 
-    public void dequeueEvent() {
-        this.queue.poll();
+    public Set<Notification> getNotifications() {
+        return Collections.unmodifiableSet(queue);
     }
 
     public void setEmail(String email) {
@@ -108,8 +108,8 @@ public class User {
         this.firstname = StringEscapeUtils.escapeHtml4(StringUtils.capitalize(firstname.trim()));
     }
 
-    public List<Role> getRoles() {
-        return Collections.unmodifiableList(roles);
+    public Set<Role> getRoles() {
+        return Collections.unmodifiableSet(roles);
     }
 
     @Override
