@@ -13,7 +13,7 @@ class ServerErrorTest {
         try(Response response = ServerError.build("Test")) {
             assertEquals(500, response.getStatus());
             assertInstanceOf(ErrorResponse.class, response.getEntity());
-            assertEquals("Test", ((ErrorResponse) response.getEntity()).error());
+            assertEquals("Test", ((ErrorResponse) response.getEntity()).error().getMessage());
         }
     }
 }

@@ -26,12 +26,6 @@ class UserTest {
     }
 
     @Test
-    @Disabled
-    void setEmailShouldThrowExceptionIfNull() {
-        // TODO : Test ValidationExceptionMapper !
-    }
-
-    @Test
     void setLastnameShouldTrimAndUppercaseInput() {
         user.setLastname("    de la fontaine ");
         assertEquals("DE LA FONTAINE", user.getLastname());

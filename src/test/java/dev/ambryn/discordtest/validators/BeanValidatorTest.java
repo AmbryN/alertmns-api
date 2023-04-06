@@ -1,6 +1,5 @@
 package dev.ambryn.discordtest.validators;
 
-import dev.ambryn.discordtest.dto.UserCreateDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotNull;

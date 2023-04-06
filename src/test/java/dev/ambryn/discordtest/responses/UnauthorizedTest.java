@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-class NotFoundTest {
+class UnauthorizedTest {
 
     @Test
-    void buildShouldReturnAStatus404AndErrorMessage() {
-        try(Response response = NotFound.build("Test")) {
-            assertEquals(404, response.getStatus());
+    void buildShouldReturnAStatus403AndErrorMessage() {
+        try(Response response = Unauthorized.build("Test")) {
+            assertEquals(401, response.getStatus());
             assertInstanceOf(ErrorResponse.class, response.getEntity());
             assertEquals("Test", ((ErrorResponse) response.getEntity()).error().getMessage());
         }

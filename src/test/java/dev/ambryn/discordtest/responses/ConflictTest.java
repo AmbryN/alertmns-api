@@ -12,7 +12,7 @@ class ConflictTest {
         try(Response response = Conflict.build("Test")) {
             assertEquals(409, response.getStatus());
             assertInstanceOf(ErrorResponse.class, response.getEntity());
-            assertEquals("Test", ((ErrorResponse) response.getEntity()).error());
+            assertEquals("Test", ((ErrorResponse) response.getEntity()).error().getMessage());
         }
     }
 }

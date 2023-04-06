@@ -44,8 +44,11 @@ dependencies {
     implementation group: 'org.glassfish.soteria', name: 'jakarta.security.enterprise', version: '3.0.2'
 
     // Lombok
-    implementation('org.projectlombok:lombok:1.18.26')
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.9")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-text
