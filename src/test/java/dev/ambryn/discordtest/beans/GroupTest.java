@@ -20,13 +20,13 @@ class GroupTest {
     }
 
     @Test
-    void getNameShouldEscapeDangerousCharacters() {
+    void getNameShouldEscapeHTMLChars() {
         group.setName("<>&\"");
         assertEquals("&lt;&gt;&amp;&quot;", group.getName());
     }
 
     @Test
-    void addMember() {
+    void shouldAddMember() {
         User u1 = new User();
         User u2 = new User();
         group.addMember(u1);
@@ -36,7 +36,7 @@ class GroupTest {
     }
 
     @Test
-    void removeMember() {
+    void shouldRemoveMember() {
         User user = new User();
         group.addMember(user);
         group.removeMember(user);

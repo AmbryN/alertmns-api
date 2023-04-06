@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
@@ -104,7 +105,7 @@ public class User {
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = StringEscapeUtils.escapeHtml4(firstname.trim());
+        this.firstname = StringEscapeUtils.escapeHtml4(StringUtils.capitalize(firstname.trim()));
     }
 
     public List<Role> getRoles() {

@@ -1,34 +1,50 @@
 package dev.ambryn.discordtest.beans;
 
-import dev.ambryn.discordtest.errors.mappers.ValidationExceptionMapper;
+import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserTest {
-
-    ValidationExceptionMapper em;
-
     User user;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         user = new User();
     }
 
     @Test
-    void setEmailShouldTrimAndLowercaseInput() {
-        user.setEmail("  TEST.test@test.com   ");
-        assertEquals("test.test@test.com", user.getEmail());
+    public void shouldLowercaseEmail() {
+        user.setEmail("TEST3@TEST.com");
+        assertEquals("test3@test.com", user.getEmail());
     }
 
     @Test
-    void setLastnameShouldTrimAndUppercaseInput() {
-        user.setLastname("    de la fontaine ");
-        assertEquals("DE LA FONTAINE", user.getLastname());
+    public void shouldTrimEmail() {
+        user.setEmail("     test@test.com     ");
+        assertEquals("test@test.com", user.getEmail());
+    }
+
+    @Test
+    public void shouldHashPassword() {
+        Pbkdf2PasswordHashImpl hasher = new Pbkdf2PasswordHashImpl();
+        user.setPassword("test");
+
+        assertTrue(hasher.verify("test".toCharArray(), user.getPassword()));
+    }
+
+    @Test
+    public void shouldUppercaseLastname() {
+        user.setLastname("test");
+        assertEquals("TEST", user.getLastname());
+    }
+
+    @Test
+    public void shouldTrimLastname() {
+        user.setLastname("     TEST     ");
+        assertEquals("TEST", user.getLastname());
     }
 
     @Test
@@ -38,9 +54,15 @@ class UserTest {
     }
 
     @Test
-    void setFirstnameShouldTrimInput() {
-        user.setFirstname("    Jean-Christophe   ");
-        assertEquals("Jean-Christophe", user.getFirstname());
+    public void shouldTrimFirstname() {
+        user.setFirstname("     Test     ");
+        assertEquals("Test", user.getFirstname());
+    }
+
+    @Test
+    public void shouldCapitalizeFirstname() {
+        user.setFirstname("test");
+        assertEquals("Test", user.getFirstname());
     }
 
     @Test

@@ -9,23 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class MessageTest {
     Message msg;
 
-    @BeforeEach
-    void setup() {
-        msg = new Message(new Channel(), new User(), "Content", null);
-    }
-
     @Test
-    @Disabled
-    void getSender() {
-    }
-
-    @Test
-    void getContent() {
-        assertEquals("Content", msg.getContent());
-    }
-
-    @Test
-    void getFile() {
-        assertNull(msg.getFile());
+    public void shouldEscapeHTMLChars() {
+        msg = new Message();
+        msg.setContent("<>&\"");
+        assertEquals("&lt;&gt;&amp;&quot;", msg.getContent());
     }
 }
