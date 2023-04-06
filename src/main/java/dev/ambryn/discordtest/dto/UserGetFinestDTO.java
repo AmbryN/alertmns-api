@@ -1,3 +1,5 @@
 package dev.ambryn.discordtest.dto;
 
-public record UserGetFinestDTO(Long id, String email, String lastname, String firstname, String[] roles){}
+import java.util.List;
+
+public record UserGetFinestDTO(Long id, String email, String lastname, String firstname, List<String> roles){}
