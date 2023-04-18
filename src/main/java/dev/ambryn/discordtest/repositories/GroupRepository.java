@@ -28,14 +28,12 @@ public class GroupRepository {
         logger.debug("Fetching all group");
         CriteriaQuery<Group> cq = em.getCriteriaBuilder().createQuery(Group.class);
         cq.select(cq.from(Group.class));
-        List<Group> groups = new ArrayList<>();
         try {
-            groups = em.createQuery(cq).getResultList();
+            return em.createQuery(cq).getResultList();
         } catch (PersistenceException pe) {
             logger.error("Could not fetch all Groups");
             throw new DataAccessException("Could not fetch all group", pe);
         }
-        return groups;
     }
 
     public Optional<Group> getGroup(Long id) {

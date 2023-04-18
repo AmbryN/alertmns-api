@@ -23,14 +23,12 @@ public class UserRepository {
         logger.debug("Fetching all users");
         CriteriaQuery<User> cq = em.getCriteriaBuilder().createQuery(User.class);
         cq.select(cq.from(User.class));
-        List<User> users = new ArrayList<>();
         try {
-            users = em.createQuery(cq).getResultList();
+            return em.createQuery(cq).getResultList();
         } catch (PersistenceException pe) {
             logger.error("Could not fetch all users");
             throw new DataAccessException("Could not fetch all users", pe);
         }
-        return users;
     }
 
     public Optional<User> getUser(Long id) {

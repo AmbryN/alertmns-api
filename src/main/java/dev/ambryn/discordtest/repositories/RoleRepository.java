@@ -26,14 +26,12 @@ public class RoleRepository {
         logger.debug("Fetching all roles");
         CriteriaQuery<Role> cq = em.getCriteriaBuilder().createQuery(Role.class);
         cq.select(cq.from(Role.class));
-        List<Role> roles = new ArrayList<>();
         try {
-            roles = em.createQuery(cq).getResultList();
+            return em.createQuery(cq).getResultList();
         } catch (PersistenceException pe) {
             logger.error("Could not fetch all Roles");
             throw new DataAccessException("Could not fetch all roles", pe);
         }
-        return roles;
     }
 
     public Optional<Role> getRole(Long id) {

@@ -26,15 +26,14 @@ public class ChannelRepository {
         logger.debug("Fetching all channels");
         CriteriaQuery<Channel> cq = em.getCriteriaBuilder().createQuery(Channel.class);
         cq.select(cq.from(Channel.class));
-        List<Channel> channels = new ArrayList<>();
+
         try {
-            channels = em.createQuery(cq).getResultList();
+            return em.createQuery(cq).getResultList();
         } catch (PersistenceException pe) {
             String message = "Could not fetch all channels";
             logger.error(message);
             throw new DataAccessException(message, pe);
         }
-        return channels;
     }
 
     @Transactional
