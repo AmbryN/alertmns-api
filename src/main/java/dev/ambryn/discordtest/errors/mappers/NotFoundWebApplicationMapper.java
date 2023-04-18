@@ -14,7 +14,7 @@ public class NotFoundWebApplicationMapper implements ExceptionMapper<NotFoundExc
     public Response toResponse(NotFoundException exception) {
         Error.Builder builder = new Error.Builder();
         builder.setCode(EError.NotFound);
-        builder.setMessage("Could not find ressource");
+        builder.setMessage(exception.getMessage());
         Error error = builder.build();
         return Response
                 .status(Response.Status.NOT_FOUND)

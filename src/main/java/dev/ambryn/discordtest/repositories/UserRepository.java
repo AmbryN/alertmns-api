@@ -2,12 +2,10 @@ package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.errors.DataAccessException;
-import dev.ambryn.discordtest.validators.BeanValidator;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.transaction.*;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +35,7 @@ public class UserRepository {
 
     public Optional<User> getUser(Long id) {
         try {
-            logger.debug("Fetching user with id=");
+            logger.debug("Fetching user with id=" + id);
             User user = (User) em.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = :id")
                     .setParameter("id", id)
                     .getSingleResult();
@@ -76,6 +74,17 @@ public class UserRepository {
         } catch (PersistenceException ex) {
             logger.error("Could not add User", ex);
             throw new DataAccessException("Could not add User", ex);
+        }
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        try {
+            logger.debug("Saving updated user");
+            em.merge(user);
+        } catch (PersistenceException ex) {
+            logger.error("Could not update User", ex);
+            throw new DataAccessException("Could not update User", ex);
         }
     }
 }

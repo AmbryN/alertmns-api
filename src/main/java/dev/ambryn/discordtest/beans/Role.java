@@ -3,12 +3,14 @@ package dev.ambryn.discordtest.beans;
 import dev.ambryn.discordtest.enums.ERole;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Objects;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @Table(name = "Role")
 public class Role {

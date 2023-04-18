@@ -1,6 +1,8 @@
 package dev.ambryn.discordtest.dto;
 
+import java.util.List;
+
 public record GroupGetFinestDTO(
         Long id,
         String name,
-        UserGetDTO[] members) {}
+        List<UserGetDTO> members) {}

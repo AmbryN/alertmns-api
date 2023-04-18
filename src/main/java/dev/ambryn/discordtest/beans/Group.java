@@ -33,8 +33,7 @@ public class Group {
     @ToString.Exclude
     private List<User> members;
 
-    protected Group() {
-        this(null);
+    public Group() {
     }
 
     public Group(String name) {
