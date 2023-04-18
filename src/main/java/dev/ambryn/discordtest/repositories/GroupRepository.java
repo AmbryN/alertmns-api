@@ -41,7 +41,7 @@ public class GroupRepository {
     public Optional<Group> getGroup(Long id) {
         try {
             logger.debug("Fetching group with id={}", id);
-            Group group = (Group) em.createQuery("SELECT g FROM Group g WHERE g.id = :id")
+            Group group = (Group) em.createQuery("SELECT g FROM Group g JOIN User WHERE g.id = :id")
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(group);
@@ -54,15 +54,14 @@ public class GroupRepository {
         }
     }
 
-    public Group saveGroup(Group group) {
+    public void saveGroup(Group group) {
         try {
             logger.debug("Saving group={}", group);
 
             if (group.getId() != null) {
                 em.merge(group);
             } else em.persist(group);
-
-            return group;
+            em.flush();
         } catch (PersistenceException pe) {
             logger.error("Could not save group={}", group);
             throw new DataAccessException("Could not save group=" + group, pe);
