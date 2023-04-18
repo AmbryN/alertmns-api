@@ -68,7 +68,7 @@ public class UserController {
                             roleRepository.getRole(roleToAdd.id())
                                     .ifPresentOrElse(role -> {
                                         user.addRole(role);
-                                        userRepository.updateUser(user);
+                                        userRepository.saveUser(user);
                                     },
                                             () -> {
                                                 throw new NotFoundException("Could not find role with id=" + roleToAdd);

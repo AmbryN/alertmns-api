@@ -12,7 +12,7 @@ import java.util.*;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    private String jwtSecret = "my_secret"; /*= properties.getJwt();*/
+    private String jwtSecret = "my_secret";
 
     private final int jwtExpirationMs = 10 * 60 * 60 * 1000; // 10 hours in ms
 

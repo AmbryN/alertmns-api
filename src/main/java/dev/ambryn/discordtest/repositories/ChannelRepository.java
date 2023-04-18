@@ -1,8 +1,6 @@
 package dev.ambryn.discordtest.repositories;
 
 import dev.ambryn.discordtest.beans.Channel;
-import dev.ambryn.discordtest.beans.Message;
-import dev.ambryn.discordtest.beans.User;
 import dev.ambryn.discordtest.errors.DataAccessException;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
@@ -13,7 +11,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Optional;
 
 @Dependent
@@ -23,11 +20,14 @@ public class ChannelRepository {
     private EntityManager em;
 
     @Transactional
-    public Channel createChannel(Channel channel) {
+    public void saveChannel(Channel channel) {
         try {
-            em.persist(channel);
+            if (channel.getId() != null) {
+                em.merge(channel);
+            } else {
+                em.persist(channel);
+            }
             em.flush();
-            return channel;
         } catch (PersistenceException pe) {
             logger.error("Could not create Channel={}", channel);
             throw new DataAccessException("Could not create Channel="+channel, pe);
@@ -44,14 +44,5 @@ public class ChannelRepository {
         } catch (NoResultException ex) {
             return Optional.empty();
         }
-    }
-
-    public void addMessage(Long id, Message message) {
-        getChannel(id).ifPresent(channel -> channel.addMessage(message));
-    }
-
-    @Transactional
-    public void updateChannel(Channel channel) {
-        em.merge(channel);
     }
 }

@@ -67,24 +67,19 @@ public class UserRepository {
     }
 
     @Transactional
-    public void addUser(User user) {
+    public void saveUser(User user) {
         try {
-            logger.debug("Persisting new user");
-            em.persist(user);
+            if (user.getId() != null) {
+                logger.debug("Saving updated user");
+                em.merge(user);
+            } else {
+                logger.debug("Persisting new user");
+                em.persist(user);
+            }
+            em.flush();
         } catch (PersistenceException ex) {
             logger.error("Could not add User", ex);
             throw new DataAccessException("Could not add User", ex);
-        }
-    }
-
-    @Transactional
-    public void updateUser(User user) {
-        try {
-            logger.debug("Saving updated user");
-            em.merge(user);
-        } catch (PersistenceException ex) {
-            logger.error("Could not update User", ex);
-            throw new DataAccessException("Could not update User", ex);
         }
     }
 }

@@ -2,10 +2,8 @@ package dev.ambryn.discordtest.controllers;
 
 import dev.ambryn.discordtest.beans.Channel;
 import dev.ambryn.discordtest.dto.ChannelCreateDTO;
-import dev.ambryn.discordtest.enums.EError;
 import dev.ambryn.discordtest.enums.ERole;
 import dev.ambryn.discordtest.errors.DataAccessException;
-import dev.ambryn.discordtest.errors.Error;
 import dev.ambryn.discordtest.filters.Authorize;
 import dev.ambryn.discordtest.filters.MembersOnly;
 import dev.ambryn.discordtest.responses.Created;
@@ -56,7 +54,7 @@ public class ChannelController {
 
         Response response = null;
         try {
-            channelRepository.createChannel(newChannel);
+            channelRepository.saveChannel(newChannel);
             response = Created.build(ChannelMapper.toDTO(newChannel));
         } catch (DataAccessException dae) {
             response = ServerError.build(dae.getMessage());

@@ -58,7 +58,7 @@ public class UserSocket {
             message.setContent(content);
 
             channel.addMessage(message);
-            channelRepository.updateChannel(channel);
+            channelRepository.saveChannel(channel);
 
             sendAll(session, message);
         }
