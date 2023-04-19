@@ -1,4 +1,4 @@
-package dev.ambryn.discord.dto;
+package dev.ambryn.discord.dto.user;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import dev.ambryn.discord.beans.Message;
 import dev.ambryn.discord.beans.User;
 import dev.ambryn.discord.dto.MessageCreateDTO;
 import dev.ambryn.discord.dto.MessageGetDTO;
-import dev.ambryn.discord.dto.UserGetDTO;
+import dev.ambryn.discord.dto.user.UserGetDTO;
 import dev.ambryn.discord.repositories.ChannelRepository;
 import dev.ambryn.discord.repositories.UserRepository;
 import jakarta.inject.Inject;

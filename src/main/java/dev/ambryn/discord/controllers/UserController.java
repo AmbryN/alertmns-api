@@ -2,8 +2,8 @@ package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.User;
 import dev.ambryn.discord.dto.RoleDTO;
-import dev.ambryn.discord.dto.UserCreateDTO;
-import dev.ambryn.discord.dto.UserGetDTO;
+import dev.ambryn.discord.dto.user.UserCreateDTO;
+import dev.ambryn.discord.dto.user.UserGetDTO;
 import dev.ambryn.discord.dto.mappers.dto.UserMapper;
 import dev.ambryn.discord.enums.ERole;
 import dev.ambryn.discord.errors.DataAccessException;
@@ -92,7 +92,7 @@ public class UserController {
                                         userRepository.saveUser(user);
                                     },
                                             () -> {
-                                                throw new NotFoundException("Could not find role with id=" + roleToAdd);
+                                                throw new NotFoundException("Could not find role with id=" + roleToAdd.id());
                                             });
                         },
                         () -> {

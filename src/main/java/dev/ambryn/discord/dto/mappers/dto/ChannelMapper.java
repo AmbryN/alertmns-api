@@ -1,8 +1,8 @@
 package dev.ambryn.discord.dto.mappers.dto;
 
 import dev.ambryn.discord.beans.Channel;
-import dev.ambryn.discord.dto.ChannelCreateDTO;
-import dev.ambryn.discord.dto.ChannelGetDTO;
+import dev.ambryn.discord.dto.channel.ChannelCreateDTO;
+import dev.ambryn.discord.dto.channel.ChannelGetDTO;
 import dev.ambryn.discord.enums.EVisibility;
 
 public class ChannelMapper {

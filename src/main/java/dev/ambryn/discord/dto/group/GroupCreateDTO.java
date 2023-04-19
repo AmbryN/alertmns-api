@@ -1,4 +1,4 @@
-package dev.ambryn.discord.dto;
+package dev.ambryn.discord.dto.group;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

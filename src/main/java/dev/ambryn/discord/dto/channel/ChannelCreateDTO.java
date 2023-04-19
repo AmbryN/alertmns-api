@@ -1,4 +1,4 @@
-package dev.ambryn.discord.dto;
+package dev.ambryn.discord.dto.channel;
 
 import dev.ambryn.discord.enums.EVisibility;
 import jakarta.persistence.Enumerated;

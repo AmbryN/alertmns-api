@@ -8,6 +8,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class GroupRepository {
     public Optional<Group> getGroup(Long id) {
         try {
             logger.debug("Fetching group with id={}", id);
-            Group group = (Group) em.createQuery("SELECT g FROM Group g JOIN User WHERE g.id = :id")
+            Group group = (Group) em.createQuery("SELECT g FROM Group g JOIN FETCH g.members WHERE g.id = :id")
                     .setParameter("id", id)
                     .getSingleResult();
             return Optional.of(group);
@@ -48,6 +49,7 @@ public class GroupRepository {
         }
     }
 
+    @Transactional
     public void saveGroup(Group group) {
         try {
             logger.debug("Saving group={}", group);

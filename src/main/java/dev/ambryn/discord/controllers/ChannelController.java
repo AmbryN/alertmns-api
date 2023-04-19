@@ -1,8 +1,8 @@
 package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.Channel;
-import dev.ambryn.discord.dto.ChannelCreateDTO;
-import dev.ambryn.discord.dto.ChannelGetDTO;
+import dev.ambryn.discord.dto.channel.ChannelCreateDTO;
+import dev.ambryn.discord.dto.channel.ChannelGetDTO;
 import dev.ambryn.discord.enums.ERole;
 import dev.ambryn.discord.errors.DataAccessException;
 import dev.ambryn.discord.filters.Authorize;

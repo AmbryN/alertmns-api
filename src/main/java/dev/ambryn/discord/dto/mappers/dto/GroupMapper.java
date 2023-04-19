@@ -1,8 +1,8 @@
 package dev.ambryn.discord.dto.mappers.dto;
 
 import dev.ambryn.discord.beans.Group;
-import dev.ambryn.discord.dto.GroupCreateDTO;
-import dev.ambryn.discord.dto.GroupGetDTO;
+import dev.ambryn.discord.dto.group.GroupCreateDTO;
+import dev.ambryn.discord.dto.group.GroupGetDTO;
 import dev.ambryn.discord.dto.GroupGetFinestDTO;
 
 public class GroupMapper {

@@ -1,6 +1,6 @@
 package dev.ambryn.discord.validators;
 
-import dev.ambryn.discord.dto.ChannelCreateDTO;
+import dev.ambryn.discord.dto.channel.ChannelCreateDTO;
 import jakarta.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
