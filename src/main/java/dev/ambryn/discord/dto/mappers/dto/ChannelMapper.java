@@ -9,7 +9,7 @@ public class ChannelMapper {
 
     public static Channel toChannel(ChannelCreateDTO channelDTO) {
         String name = channelDTO.name();
-        EVisibility visibility = EVisibility.valueOf(channelDTO.visibility());
+        EVisibility visibility = channelDTO.visibility();
         return new Channel(name, visibility);
     }
 

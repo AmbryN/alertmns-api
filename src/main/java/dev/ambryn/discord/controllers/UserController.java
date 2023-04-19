@@ -1,7 +1,7 @@
 package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.User;
-import dev.ambryn.discord.dto.RoleAddDTO;
+import dev.ambryn.discord.dto.RoleDTO;
 import dev.ambryn.discord.dto.UserCreateDTO;
 import dev.ambryn.discord.dto.UserGetDTO;
 import dev.ambryn.discord.dto.mappers.dto.UserMapper;
@@ -43,7 +43,7 @@ public class UserController {
                 .stream()
                 .map(UserMapper::toDto)
                 .toList();
-        return Response.ok(users).build();
+        return Ok.build(users);
     }
 
     @GET
@@ -80,7 +80,7 @@ public class UserController {
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Authorize(level = ERole.ADMIN)
-    public Response addRole(@PathParam("id") Long id, RoleAddDTO roleToAdd) {
+    public Response addRole(@PathParam("id") Long id, RoleDTO roleToAdd) {
         logger.debug("Add role {} to user with id={}", roleToAdd, id);
         BeanValidator.validate(roleToAdd);
 

@@ -2,6 +2,7 @@ package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.Channel;
 import dev.ambryn.discord.dto.ChannelCreateDTO;
+import dev.ambryn.discord.dto.ChannelGetDTO;
 import dev.ambryn.discord.enums.ERole;
 import dev.ambryn.discord.errors.DataAccessException;
 import dev.ambryn.discord.filters.Authorize;
@@ -19,12 +20,33 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 @Path("/channels")
 @Authorize
 public class ChannelController {
 
     @Inject
     ChannelRepository channelRepository;
+
+    @GET
+    public Response getChannels() {
+        List<ChannelGetDTO> channels = channelRepository.getChannels()
+                .stream().map(ChannelMapper::toDTO)
+                .toList();
+        return Ok.build(channels);
+    }
+
+    @GET
+    @Path("/{id:[0-9]+}")
+    public Response getChannel(@PathParam("id") Long id) {
+        return channelRepository.getChannel(id)
+                .map(ChannelMapper::toDTO)
+                .map(Ok::build)
+                .orElseGet(() ->
+                        NotFound.build("Could not find channel with id=" + id)
+                );
+    }
 
     @GET
     @Path("/{id:[0-9]+}/messages")

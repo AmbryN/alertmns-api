@@ -1,5 +1,6 @@
 package dev.ambryn.discord.beans;
 
+import dev.ambryn.discord.enums.ERole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -53,7 +54,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     )
     @ToString.Exclude
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "is_notified_of",
@@ -61,11 +62,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "not_id", referencedColumnName = "not_id")
     )
     @ToString.Exclude
-    private Set<Notification> queue;
+    private Set<Notification> queue = new HashSet<>();
 
     public User() {
-        this.roles = new HashSet<>();
-        this.queue = new HashSet<>();
+        Role role = new Role();
+        role.setId(1L);
+        this.roles.add(role);
     }
 
     public User(String email, String password, String lastname, String firstname) {

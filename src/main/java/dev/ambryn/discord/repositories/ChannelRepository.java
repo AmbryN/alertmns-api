@@ -40,9 +40,9 @@ public class ChannelRepository {
         try {
             Channel channel = (Channel) em.createQuery(
                     "SELECT c FROM Channel c " +
-                            "JOIN User " +
-                            "JOIN Message " +
-                            "JOIN Meeting " +
+                            "JOIN FETCH c.members " +
+                            "JOIN FETCH c.messages " +
+                            "JOIN FETCH c.meetings " +
                             "WHERE c.id = :id"
                     )
                     .setParameter("id", id)

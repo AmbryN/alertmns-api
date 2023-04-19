@@ -1,5 +1,7 @@
 package dev.ambryn.discord.dto;
 
+import dev.ambryn.discord.enums.EVisibility;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -10,12 +12,10 @@ public record ChannelCreateDTO(
         String name,
 
         @NotNull(message = "ne peut être vide")
-        @NotBlank
-        @Pattern(regexp = "^((PUBLIC)|(PRIVATE))$", message = "doit être PUBLIC ou PRIVATE")
-        String visibility) {
+        EVisibility visibility) {
 
-        public ChannelCreateDTO(String name, String visibility) {
+        public ChannelCreateDTO(String name, EVisibility visibility) {
                 this.name = name != null ? StringEscapeUtils.escapeHtml4(name.trim().toUpperCase()) : null;
-                this.visibility = visibility != null ? StringEscapeUtils.escapeHtml4(visibility.trim().toUpperCase()) : null;
+                this.visibility = visibility;
         }
 }

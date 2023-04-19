@@ -3,6 +3,8 @@ package dev.ambryn.discord.dto;
 import jakarta.validation.constraints.*;
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.util.Set;
+
 public record UserCreateDTO(
         @Positive
         Long id,
