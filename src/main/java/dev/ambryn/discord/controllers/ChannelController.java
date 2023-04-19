@@ -1,19 +1,20 @@
 package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.Channel;
+import dev.ambryn.discord.beans.User;
 import dev.ambryn.discord.dto.channel.ChannelCreateDTO;
 import dev.ambryn.discord.dto.channel.ChannelGetDTO;
-import dev.ambryn.discord.enums.ERole;
+import dev.ambryn.discord.dto.mappers.dto.ChannelMapper;
+import dev.ambryn.discord.dto.mappers.dto.MessageMapper;
+import dev.ambryn.discord.enums.EVisibility;
 import dev.ambryn.discord.errors.DataAccessException;
 import dev.ambryn.discord.filters.Authorize;
 import dev.ambryn.discord.filters.MembersOnly;
-import dev.ambryn.discord.responses.Created;
-import dev.ambryn.discord.responses.NotFound;
-import dev.ambryn.discord.dto.mappers.dto.ChannelMapper;
-import dev.ambryn.discord.dto.mappers.dto.MessageMapper;
 import dev.ambryn.discord.repositories.ChannelRepository;
-import dev.ambryn.discord.responses.Ok;
-import dev.ambryn.discord.responses.ServerError;
+import dev.ambryn.discord.repositories.UserRepository;
+import dev.ambryn.discord.responses.*;
+import dev.ambryn.discord.security.JwtUtils;
+import dev.ambryn.discord.services.AuthorizationService;
 import dev.ambryn.discord.validators.BeanValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -21,6 +22,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.Optional;
 
 @Path("/channels")
 @Authorize
@@ -28,6 +30,12 @@ public class ChannelController {
 
     @Inject
     ChannelRepository channelRepository;
+    @Inject
+    UserRepository userRepository;
+    @Inject
+    JwtUtils jwtUtils;
+    @Inject
+    AuthorizationService authorizationService;
 
     @GET
     public Response getChannels() {
@@ -65,22 +73,39 @@ public class ChannelController {
                 );
     }
 
+    /**
+     * Allows for the creation of a new channel if the authorized user has ADMIN privileges
+     * OR if the user does not have ADMIN privileges but creates a PRIVATE channel.
+     * @param bearer JSON Web Token
+     * @param channelCreateDTO the channel to create
+     * @return HTTP Response
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Authorize(level = ERole.ADMIN)
-    public Response createChannel(ChannelCreateDTO channelCreateDTO) {
+    public Response createChannel(@HeaderParam("Authorization") String bearer, ChannelCreateDTO channelCreateDTO) {
         BeanValidator.validate(channelCreateDTO);
 
-        Channel newChannel = ChannelMapper.toChannel(channelCreateDTO);
+        String email = jwtUtils.getEmailFromToken(bearer);
+        Optional<User> oUser = userRepository.getUserByEmail(email);
 
-        Response response = null;
-        try {
-            channelRepository.saveChannel(newChannel);
-            response = Created.build(ChannelMapper.toDTO(newChannel));
-        } catch (DataAccessException dae) {
-            response = ServerError.build(dae.getMessage());
+        if (oUser.isPresent()) {
+            User user = oUser.get();
+            boolean isAdmin = authorizationService.isAdmin(user);
+
+            if (isAdmin || channelCreateDTO.visibility() == EVisibility.PRIVATE) {
+                Channel newChannel = ChannelMapper.toChannel(channelCreateDTO);
+
+                Response response = null;
+                try {
+                    channelRepository.saveChannel(newChannel);
+                    response = Created.build(ChannelMapper.toDTO(newChannel));
+                } catch (DataAccessException dae) {
+                    response = ServerError.build(dae.getMessage());
+                }
+                return response;
+            }
         }
-        return response;
+        return Forbidden.build();
     }
 }
