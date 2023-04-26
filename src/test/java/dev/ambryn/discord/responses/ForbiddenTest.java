@@ -10,10 +10,10 @@ class ForbiddenTest {
 
     @Test
     void buildShouldReturnAStatus403AndErrorMessage() {
-        try(Response response = Forbidden.build("Test")) {
+        try(Response response = Forbidden.build()) {
             assertEquals(403, response.getStatus());
             assertInstanceOf(ErrorResponse.class, response.getEntity());
-            assertEquals("Test", ((ErrorResponse) response.getEntity()).error().getMessage());
+            assertEquals("You don't have permissions to perform this action", ((ErrorResponse) response.getEntity()).error().getMessage());
         }
     }
 }

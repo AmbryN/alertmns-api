@@ -12,14 +12,14 @@ class UserValidationTest {
 
     @Test
     void computeViolationsShouldContainNoneIfPassedAValidDTO() {
-        UserCreateDTO dto = new UserCreateDTO("email@email.com", "password", "test", "test");
+        UserCreateDTO dto = new UserCreateDTO(null, "email@email.com", "password", "test", "test");
         Set<ConstraintViolation<UserCreateDTO>> violations = BeanValidator.computeViolations(dto);
         assertEquals(0, violations.size());
     }
 
     @Test
     void computeViolationsShouldContainViolations() {
-        UserCreateDTO dto = new UserCreateDTO("email.com", "pass", "@", "");
+        UserCreateDTO dto = new UserCreateDTO(null, "email.com", "pass", "@", "");
         Set<ConstraintViolation<UserCreateDTO>> violations = BeanValidator.computeViolations(dto);
         // Should contain
         // Email : Pattern violation (not an email)

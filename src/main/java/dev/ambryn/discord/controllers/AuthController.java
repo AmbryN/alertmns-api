@@ -1,5 +1,6 @@
 package dev.ambryn.discord.controllers;
 
+import dev.ambryn.discord.dto.JwtResponse;
 import dev.ambryn.discord.dto.LoginDTO;
 import dev.ambryn.discord.repositories.UserRepository;
 import dev.ambryn.discord.responses.Ok;
@@ -11,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
@@ -36,7 +38,7 @@ public class AuthController {
 
         return userRepository.getUserByEmail(login.email())
                 .filter(user -> credentialService.verifyCredentials(user, login.password()))
-                .map(user -> Ok.build(jwt.generateJwtToken(user)))
+                .map(user -> Ok.build(new JwtResponse(jwt.generateJwtToken(user))))
                 .orElseGet(() -> Unauthorized.build("Email and/or password is/are incorrect"));
     }
 }
