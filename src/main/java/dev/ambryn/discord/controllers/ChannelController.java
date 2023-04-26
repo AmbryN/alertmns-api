@@ -96,14 +96,12 @@ public class ChannelController {
             if (isAdmin || channelCreateDTO.visibility() == EVisibility.PRIVATE) {
                 Channel newChannel = ChannelMapper.toChannel(channelCreateDTO);
 
-                Response response = null;
                 try {
                     channelRepository.saveChannel(newChannel);
-                    response = Created.build(ChannelMapper.toDTO(newChannel));
+                    return Created.build(ChannelMapper.toDTO(newChannel));
                 } catch (DataAccessException dae) {
-                    response = ServerError.build(dae.getMessage());
+                    return ServerError.build(dae.getMessage());
                 }
-                return response;
             }
         }
         return Forbidden.build();
