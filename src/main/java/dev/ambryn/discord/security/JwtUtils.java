@@ -17,9 +17,13 @@ public class JwtUtils {
     private final int jwtExpirationMs = 10 * 60 * 60 * 1000; // 10 hours in ms
 
     public String generateJwtToken(User user) {;
-        System.out.println(user.getRoles());
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("firstname", user.getFirstname());
+        data.put("lastname", user.getLastname());
+        data.put("roles", user.getRoles());
 
         return Jwts.builder()
+                .setClaims(data)
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
