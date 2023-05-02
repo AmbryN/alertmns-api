@@ -86,7 +86,7 @@ public class ChannelController {
     public Response createChannel(@HeaderParam("Authorization") String bearer, ChannelCreateDTO channelCreateDTO) {
         BeanValidator.validate(channelCreateDTO);
 
-        String email = jwtUtils.getEmailFromToken(bearer);
+        String email = jwtUtils.getEmailFromBearer(bearer);
         Optional<User> oUser = userRepository.getUserByEmail(email);
 
         if (oUser.isPresent()) {

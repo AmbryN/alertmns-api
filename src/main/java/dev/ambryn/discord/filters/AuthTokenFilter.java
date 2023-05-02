@@ -34,10 +34,9 @@ public class AuthTokenFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         boolean hasPermission =
                 Optional.ofNullable(requestContext.getHeaderString("Authorization"))
-                        .map(jwtUtils::extractJwtFromHeader)
-                        .flatMap(jwt -> {
-                            if (jwtUtils.validateJwtToken(jwt)) {
-                                return userRepository.getUserByEmail(jwtUtils.getEmailFromToken(jwt))
+                        .flatMap(bearer -> {
+                            if (jwtUtils.validateJwtToken(bearer)) {
+                                return userRepository.getUserByEmail(jwtUtils.getEmailFromBearer(bearer))
                                         .map(User::getRoles)
                                         .map(roles -> roles.stream().map(Role::getName))
                                         .map(roleNames -> roleNames.anyMatch(erole -> erole == getAuthLevel()))

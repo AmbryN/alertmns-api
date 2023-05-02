@@ -26,7 +26,7 @@ public class AuthorizationService {
     }
 
     public boolean isMember(String jwt, Long channelId) {
-        return userRepository.getUserByEmail(jwtUtils.getEmailFromToken(jwt))
+        return userRepository.getUserByEmail(jwtUtils.getEmailFromBearer(jwt))
                 .flatMap(user -> channelRepository.getChannel(channelId)
                         .map(Channel::getMembers)
                         .map(users -> users.contains(user)))

@@ -45,8 +45,7 @@ public class MembersOnlyFilter extends ServerEndpointConfig.Configurator impleme
 
         boolean isMemberOfChannel =
                 Optional.ofNullable(requestContext.getHeaderString("Authorization"))
-                        .map(jwt::extractJwtFromHeader)
-                        .map(jwt::getEmailFromToken)
+                        .map(jwt::getEmailFromBearer)
                         .flatMap(userRepository::getUserByEmail)
                         .flatMap(user -> channelRepository.getChannel(id)
                                 .map(Channel::getMembers)

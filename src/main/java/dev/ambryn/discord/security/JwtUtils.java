@@ -3,7 +3,6 @@ package dev.ambryn.discord.security;
 import dev.ambryn.discord.beans.User;
 import io.jsonwebtoken.*;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,17 +31,19 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getEmailFromToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    public String getEmailFromBearer(String bearer) {
+        String jwt = extractJwtFromBearer(bearer);
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().getSubject();
     }
 
-    public String extractJwtFromHeader(String authHeader) {
+    private String extractJwtFromBearer(String authHeader) {
         return authHeader.substring(7);
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String bearer) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            String jwt = extractJwtFromBearer(bearer);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

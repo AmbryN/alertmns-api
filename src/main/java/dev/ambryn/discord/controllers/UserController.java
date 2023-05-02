@@ -2,7 +2,6 @@ package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.User;
 import dev.ambryn.discord.dto.RoleDTO;
-import dev.ambryn.discord.dto.mappers.dto.ChannelMapper;
 import dev.ambryn.discord.dto.user.UserCreateDTO;
 import dev.ambryn.discord.dto.user.UserGetDTO;
 import dev.ambryn.discord.dto.mappers.dto.UserMapper;
@@ -67,8 +66,7 @@ public class UserController {
     @Produces(APPLICATION_JSON)
     public Response getProfile(@HeaderParam("Authorization") String token) {
         logger.debug("Getting user profile");
-        String jwt = jwtUtils.extractJwtFromHeader(token);
-        return userRepository.getUserByEmail(jwtUtils.getEmailFromToken(jwt))
+        return userRepository.getUserByEmail(jwtUtils.getEmailFromBearer(token))
                 .map(UserMapper::toFinestDto)
                 .map(Ok::build)
                 .orElseGet(() -> NotFound.build("Could not find user corresponding to Jwt"));
