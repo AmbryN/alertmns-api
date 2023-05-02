@@ -26,7 +26,7 @@ public class AuthTokenFilter implements ContainerRequestFilter {
     @Context
     private ResourceInfo resourceInfo;
     @Inject
-    private JwtUtils jwt;
+    private JwtUtils jwtUtils;
     @Inject
     private UserRepository userRepository;
 
@@ -34,9 +34,10 @@ public class AuthTokenFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         boolean hasPermission =
                 Optional.ofNullable(requestContext.getHeaderString("Authorization"))
-                        .flatMap(token -> {
-                            if (jwt.validateJwtToken(token)) {
-                                return userRepository.getUserByEmail(jwt.getEmailFromToken(token))
+                        .map(jwtUtils::extractJwtFromHeader)
+                        .flatMap(jwt -> {
+                            if (jwtUtils.validateJwtToken(jwt)) {
+                                return userRepository.getUserByEmail(jwtUtils.getEmailFromToken(jwt))
                                         .map(User::getRoles)
                                         .map(roles -> roles.stream().map(Role::getName))
                                         .map(roleNames -> roleNames.anyMatch(erole -> erole == getAuthLevel()))

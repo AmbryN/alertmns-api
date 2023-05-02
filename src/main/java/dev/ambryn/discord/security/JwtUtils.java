@@ -3,6 +3,7 @@ package dev.ambryn.discord.security;
 import dev.ambryn.discord.beans.User;
 import io.jsonwebtoken.*;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,10 @@ public class JwtUtils {
 
     public String getEmailFromToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String extractJwtFromHeader(String authHeader) {
+        return authHeader.substring(7);
     }
 
     public boolean validateJwtToken(String authToken) {

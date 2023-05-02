@@ -2,6 +2,7 @@ package dev.ambryn.discord.dto.mappers.dto;
 
 import dev.ambryn.discord.beans.Role;
 import dev.ambryn.discord.beans.User;
+import dev.ambryn.discord.dto.channel.ChannelGetDTO;
 import dev.ambryn.discord.dto.user.UserGetDTO;
 import dev.ambryn.discord.dto.user.UserCreateDTO;
 import dev.ambryn.discord.dto.user.UserGetFinestDTO;
@@ -47,6 +48,10 @@ public class UserMapper {
                 .map(Role::getName)
                 .map(Objects::toString)
                 .toList();
-        return new UserGetFinestDTO(id, email, lastname, firstname, roles);
+        List<ChannelGetDTO> channels = user.getChannels()
+                .stream()
+                .map(ChannelMapper::toDTO)
+                .toList();
+        return new UserGetFinestDTO(id, email, lastname, firstname, roles, channels);
     }
 }

@@ -2,6 +2,7 @@ package dev.ambryn.discord.controllers;
 
 import dev.ambryn.discord.beans.User;
 import dev.ambryn.discord.dto.RoleDTO;
+import dev.ambryn.discord.dto.mappers.dto.ChannelMapper;
 import dev.ambryn.discord.dto.user.UserCreateDTO;
 import dev.ambryn.discord.dto.user.UserGetDTO;
 import dev.ambryn.discord.dto.mappers.dto.UserMapper;
@@ -14,6 +15,7 @@ import dev.ambryn.discord.responses.Created;
 import dev.ambryn.discord.responses.NotFound;
 import dev.ambryn.discord.responses.Ok;
 import dev.ambryn.discord.responses.ServerError;
+import dev.ambryn.discord.security.JwtUtils;
 import dev.ambryn.discord.validators.BeanValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -34,6 +36,8 @@ public class UserController {
     UserRepository userRepository;
     @Inject
     RoleRepository roleRepository;
+    @Inject
+    JwtUtils jwtUtils;
 
     @GET
     @Produces(value = "application/json")
@@ -56,6 +60,18 @@ public class UserController {
                 .map(UserMapper::toFinestDto)
                 .map(Ok::build)
                 .orElseGet(() -> NotFound.build("Could not find user with id=" + id));
+    }
+
+    @GET
+    @Path("/profile")
+    @Produces(APPLICATION_JSON)
+    public Response getProfile(@HeaderParam("Authorization") String token) {
+        logger.debug("Getting user profile");
+        String jwt = jwtUtils.extractJwtFromHeader(token);
+        return userRepository.getUserByEmail(jwtUtils.getEmailFromToken(jwt))
+                .map(UserMapper::toFinestDto)
+                .map(Ok::build)
+                .orElseGet(() -> NotFound.build("Could not find user corresponding to Jwt"));
     }
 
     @POST

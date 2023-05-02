@@ -56,6 +56,9 @@ public class User {
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "members")
+    private Set<Channel> channels = new HashSet<>();
+
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "is_notified_of",
             joinColumns = @JoinColumn(name = "usr_id", referencedColumnName = "usr_id"),

@@ -35,14 +35,14 @@ public class ChannelRepository {
         }
     }
 
-    @Transactional
     public Optional<Channel> getChannel(Long id) {
+        logger.debug("Fetching channel with id=" + id);
         try {
             Channel channel = (Channel) em.createQuery(
                     "SELECT c FROM Channel c " +
-                            "JOIN FETCH c.members " +
-                            "JOIN FETCH c.messages " +
-                            "JOIN FETCH c.meetings " +
+//                            "JOIN FETCH c.members " +
+//                            "JOIN FETCH c.messages " +
+//                            "JOIN FETCH c.meetings " +
                             "WHERE c.id = :id"
                     )
                     .setParameter("id", id)

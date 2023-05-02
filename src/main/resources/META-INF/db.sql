@@ -12,6 +12,7 @@ INSERT INTO Channel(cha_name, cha_visibility) VALUES ('DEVLOG Java', 0);
 INSERT INTO Channel(cha_name, cha_visibility) VALUES ('DEVLOG C#', 1);
 
 INSERT INTO is_allowed_in(cha_id, usr_id) VALUES (1, 1);
+# INSERT INTO is_allowed_in(cha_id, usr_id) VALUES (2, 1);
 INSERT INTO is_allowed_in(cha_id, usr_id) VALUES (1, 2);
 
 INSERT INTO Subject(DTYPE, sub_sent_at, sub_channel) VALUES ('Message', NOW(), (SELECT cha_id FROM Channel WHERE cha_name = 'DEVLOG Java'));
